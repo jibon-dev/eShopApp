@@ -1,18 +1,19 @@
-import {StyleSheet, SafeAreaView} from 'react-native'
-import Search from '../../src/components/Search/Search'
+import React from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
+import Search from '../../src/components/Search/Search';
 
 const SearchScreen = () => {
-    return (
-        <SafeAreaView style={styles.contactArea}>
-            <Search/>
-        </SafeAreaView>
-    )
+  return (
+    <SafeAreaView style={styles.mainArea}>
+      <Search />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-    contactArea: {
-        flex: 1,
-    }
+  mainArea: {
+    flex: 1,
+  },
 });
 
 export default SearchScreen;

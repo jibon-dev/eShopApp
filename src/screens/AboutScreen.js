@@ -1,18 +1,19 @@
-import {StyleSheet, SafeAreaView} from 'react-native'
-import About from '../../src/components/About/About'
+import React from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
+import About from '../../src/components/About/About';
 
 const AboutScreen = () => {
-    return (
-        <SafeAreaView style={styles.contactArea}>
-            <About/>
-        </SafeAreaView>
-    )
+  return (
+    <SafeAreaView style={styles.mainArea}>
+      <About />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-    contactArea: {
-        flex: 1,
-    }
+  mainArea: {
+    flex: 1,
+  },
 });
 
 export default AboutScreen;

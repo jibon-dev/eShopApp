@@ -1,14 +1,14 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import AboutScreen from '../../screens/AboutScreen';
+import BrandScreen from '../../screens/BrandScreen';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Stack = createStackNavigator();
 
-const AboutStackNavigator = () => {
+const BrandStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={({navigation, route}) => ({
@@ -53,10 +53,10 @@ const AboutStackNavigator = () => {
       })}>
       <Stack.Screen
         name="About"
-        component={AboutScreen}
+        component={BrandScreen}
         // Custom title
         options={{
-          title: 'About Us',
+          title: 'Brand',
           headerTitleAlign: 'left',
         }}
       />
@@ -105,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AboutStackNavigator;
+export default BrandStackNavigator;

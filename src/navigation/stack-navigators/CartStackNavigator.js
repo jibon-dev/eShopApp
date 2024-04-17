@@ -1,29 +1,28 @@
 import React from 'react';
+import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import AboutScreen from '../../screens/AboutScreen';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import CartScreen from '../../screens/CartScreen';
 
 const Stack = createStackNavigator();
 
-const AboutStackNavigator = () => {
+const CartStackNavigator = () => {
   return (
     <Stack.Navigator
-      screenOptions={({navigation, route}) => ({
+      screenOptions={({navigation}) => ({
         headerShown: true,
         headerTintColor: '#ffffff',
         headerStyle: {
-          backgroundColor: '#551E18',
+          backgroundColor: '#183153',
           height: 50,
         },
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.headerLeft}>
-            <AntDesign
-              name="arrowleft"
+            <Ionicons
+              name="arrow-back-outline"
               size={25}
               color="#fff"
               style={{padding: 5}}
@@ -35,16 +34,21 @@ const AboutStackNavigator = () => {
             <View style={styles.headerContent}>
               <Text style={styles.headerSearchIcon}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('SearchStack')}
+                  onPress={() =>
+                    navigation.navigate('SearchProductStack', {
+                      screen: 'SearchProduct',
+                      params: {search_query: ''},
+                    })
+                  }
                   style={styles.touchableButton}>
-                  <Icon name="search" size={20} color="#fff" />
+                  <FontAwesome name="search" size={20} color="#fff" />
                 </TouchableOpacity>
               </Text>
               <Text style={styles.headerSearchIcon}>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('UserProfileStack')}
                   style={styles.touchableButton}>
-                  <Icon name="user" size={20} color="#fff" />
+                  <FontAwesome name="user" size={20} color="#fff" />
                 </TouchableOpacity>
               </Text>
             </View>
@@ -52,11 +56,10 @@ const AboutStackNavigator = () => {
         ),
       })}>
       <Stack.Screen
-        name="About"
-        component={AboutScreen}
-        // Custom title
+        name="Cart"
+        component={CartScreen}
         options={{
-          title: 'About Us',
+          title: 'Cart',
           headerTitleAlign: 'left',
         }}
       />
@@ -65,6 +68,7 @@ const AboutStackNavigator = () => {
 };
 
 const styles = StyleSheet.create({
+  // Troggle
   headerLeft: {
     marginLeft: 10,
   },
@@ -83,26 +87,14 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   touchableButton: {
-    backgroundColor: '#551E18',
-    overflow: 'hidden',
+    backgroundColor: '#183153',
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 3,
     padding: 3,
     borderRadius: 50,
-  },
-  headerImage: {
-    ...Platform.select({
-      ios: {
-        width: 150,
-        height: 20,
-      },
-      android: {
-        width: 150,
-        height: 20,
-      },
-    }),
+    overflow: 'hidden',
   },
 });
 
-export default AboutStackNavigator;
+export default CartStackNavigator;
