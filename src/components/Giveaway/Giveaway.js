@@ -1,15 +1,15 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import RenderHtml from 'react-native-render-html';
+// import RenderHtml from 'react-native-render-html';
 
 const Giveaway = () => {
   return (
     <View style={styles.mainContent}>
       <View style={styles.liveOfferContent}>
         <Text style={styles.liveOfferTitle}>title</Text>
-        <View>
+        {/* <View>
           <RenderHtml />
-        </View>
+        </View> */}
       </View>
       <View style={styles.offerImage}>
         <Text>Image or Text</Text>
