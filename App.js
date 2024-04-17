@@ -1,18 +1,28 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, {createRef} from 'react';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import DrawerNavigator from './src/navigation/DrawerNavigator';
+
+// store reference to navigation object
+const navigationRef = createRef();
+const nav = () => navigationRef.current;
 
 const App = () => {
   return (
-    <View>
-      <Text>
-        <Icon name="rocket" size={30} color="#900" />
-      </Text>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar backgroundColor="#551E18" barStyle="light-content" />
+      <NavigationContainer ref={navigationRef}>
+        <DrawerNavigator nav={nav} />
+      </NavigationContainer>
+    </SafeAreaView>
   );
 };
 
-export default App;
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    overflow: 'hidden',
+  },
+});
 
-const styles = StyleSheet.create({});
+export default App;
