@@ -20,6 +20,7 @@ import PurchaseHistoryStackNavigator from './stack-navigators/PurchaseHistorySta
 import ReturnPolicyStackNavigator from './stack-navigators/ReturnPolicyStackNavigator';
 import SecurityPrivacyStackNavigator from './stack-navigators/SecurityPrivacyStackNavigator';
 import TermsConditionStackNavigator from './stack-navigators/TermsConditionStackNavigator';
+import SettingStackNavigator from './stack-navigators/SettingStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -88,6 +89,10 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name={screens.TermsAndConditionStack}
         component={TermsConditionStackNavigator}
+      />
+      <Tab.Screen
+        name={screens.SettingStack}
+        component={SettingStackNavigator}
       />
     </Tab.Navigator>
   );

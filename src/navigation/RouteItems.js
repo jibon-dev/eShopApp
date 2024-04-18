@@ -376,4 +376,34 @@ export const routes = [
     showInTab: false,
     showInDrawer: false,
   },
+
+  // 24. Setting ============================
+  {
+    name: screens.SettingStack,
+    focusedRoute: screens.SettingStack,
+    title: 'Setting ',
+    showInTab: false,
+    showInDrawer: false,
+    icon: focused => (
+      <AntDesign
+        name="setting"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+  {
+    name: screens.Setting,
+    focusedRoute: screens.SettingStack,
+    title: 'Setting',
+    showInTab: false,
+    showInDrawer: false,
+    icon: focused => (
+      <AntDesign
+        name="setting"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
 ];
