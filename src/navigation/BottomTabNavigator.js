@@ -23,7 +23,7 @@ import TermsConditionStackNavigator from './stack-navigators/TermsConditionStack
 import SettingStackNavigator from './stack-navigators/SettingStackNavigator';
 import LoginStackNavigator from './stack-navigators/LoginStackNavigator';
 import SignupStackNavigator from './stack-navigators/SignupStackNavigator';
-import LogoutStackNavigator from './stack-navigators/LogoutStackNavigator';
+import OrderConfirmationStackNavigator from './stack-navigators/OrderConfirmationStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +54,10 @@ const tabOptions = ({route}) => {
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={tabOptions}>
+      <Tab.Screen
+        name={screens.OrderConfirmationStack}
+        component={OrderConfirmationStackNavigator}
+      />
       <Tab.Screen name={screens.HomeStack} component={HomeStackNavigator} />
 
       <Tab.Screen
