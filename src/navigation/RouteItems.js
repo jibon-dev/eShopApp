@@ -10,6 +10,15 @@ export const screens = {
   HomeStack: 'HomeStack',
   Home: 'Home',
 
+  LoginStack: 'LoginStack',
+  Login: 'Login',
+
+  SignupStack: 'SignupStack',
+  Signup: 'Signup',
+
+  LogoutStack: 'LogoutStack',
+  Logout: 'Logout',
+
   BrandStack: 'BrandStack',
   Brand: 'Brand',
 
@@ -89,6 +98,99 @@ export const routes = [
     showInDrawer: false,
     icon: focused => (
       <FontAwesome name="home" size={30} color={focused ? '#551E18' : '#000'} />
+    ),
+  },
+
+  // 3. Login ====================================
+  {
+    name: screens.LoginStack,
+    focusedRoute: screens.LoginStack,
+    title: 'Login',
+    showInTab: false,
+    showInDrawer: false,
+    icon: focused => (
+      <Ionicons
+        name="grid-sharp"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+  {
+    name: screens.Login,
+    focusedRoute: screens.LoginStack,
+    title: 'Login',
+    showInTab: false,
+    showInDrawer: false,
+
+    icon: focused => (
+      <Ionicons
+        name="grid-sharp"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+
+  // 4. Signup ====================================
+  {
+    name: screens.SignupStack,
+    focusedRoute: screens.SignupStack,
+    title: 'Signup',
+    showInTab: false,
+    showInDrawer: false,
+    icon: focused => (
+      <Ionicons
+        name="grid-sharp"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+  {
+    name: screens.Signup,
+    focusedRoute: screens.SignupStack,
+    title: 'Signup',
+    showInTab: false,
+    showInDrawer: false,
+
+    icon: focused => (
+      <Ionicons
+        name="grid-sharp"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+
+  // 4. Logout ====================================
+  {
+    name: screens.LogoutStack,
+    focusedRoute: screens.LogoutStack,
+    title: 'Logout',
+    showInTab: false,
+    showInDrawer: false,
+    icon: focused => (
+      <Ionicons
+        name="grid-sharp"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+  {
+    name: screens.Logout,
+    focusedRoute: screens.LogoutStack,
+    title: 'Logout',
+    showInTab: false,
+    showInDrawer: false,
+
+    icon: focused => (
+      <Ionicons
+        name="grid-sharp"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
     ),
   },
 
