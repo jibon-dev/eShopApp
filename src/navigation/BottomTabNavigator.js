@@ -15,6 +15,7 @@ import AboutStackNavigator from './stack-navigators/AboutStackNavigator';
 import ContactStackNavigator from './stack-navigators/ContactStackNavigator';
 import SearchStackNavigator from './stack-navigators/SearchStackNavigator';
 import UserProfileStackNavigator from './stack-navigators/UserProfileStackNavigator';
+import TrackingMyParcelStackNavigator from './stack-navigators/TrackingMyParcelStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -63,6 +64,10 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name={screens.UserProfileStack}
         component={UserProfileStackNavigator}
+      />
+      <Tab.Screen
+        name={screens.TrackingMyParcelStack}
+        component={TrackingMyParcelStackNavigator}
       />
     </Tab.Navigator>
   );

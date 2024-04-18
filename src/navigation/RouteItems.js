@@ -292,4 +292,37 @@ export const routes = [
     showInTab: false,
     showInDrawer: true,
   },
+
+  // 17. Tracking My Parcel =========================
+  {
+    name: screens.TrackingMyParcelStack,
+    focusedRoute: screens.TrackingMyParcelStack,
+    title: 'Tracking My Parcel',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  // Tab
+  {
+    name: screens.TrackingMyParcel,
+    focusedRoute: screens.TrackingMyParcelStack,
+    title: 'Tracking My Parcel',
+    showInTab: false,
+    showInDrawer: false,
+  },
+
+  // 18. PurchaseHistoryStack ======================
+  {
+    name: screens.PurchaseHistoryStack,
+    focusedRoute: screens.PurchaseHistoryStack,
+    title: 'Purchase History',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  {
+    name: screens.PurchaseHistory,
+    focusedRoute: screens.PurchaseHistoryStack,
+    title: 'Purchase History',
+    showInTab: false,
+    showInDrawer: false,
+  },
 ];
