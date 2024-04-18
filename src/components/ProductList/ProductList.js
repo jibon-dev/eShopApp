@@ -9,20 +9,23 @@ import {
   Platform,
 } from 'react-native';
 
-const ProductList = () => {
+const ProductList = ({navigation}) => {
   return (
     <View>
       <View style={styles.container}>
         <View style={styles.productCard}>
-          <TouchableOpacity>
-            {/* <Image
-                source={{uri: product.image}}
-                style={styles.productCardImage}
-              /> */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ProductDetailStack')}>
+            <Image
+              source={require('../../assets/icon/no-photo.png')}
+              resizeMode={'contain'}
+              style={styles.productCardImage}
+            />
+
             <View style={styles.productCardContent}>
               <Text style={styles.productCardTitle}>product Name</Text>
               <Text style={styles.offerMessage}>89 % off</Text>
-              <Text style={styles.outOfStockMessage}>Out of Stock</Text>
+              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
 
               <View style={styles.productPriceContent}>
                 <Text style={styles.bdtSymbol}>৳</Text>

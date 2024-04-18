@@ -15,7 +15,7 @@ const CallScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <View style={{padding: 10, borderRadius: 10}}>
+        <View style={styles.callIcon}>
           <Feather name="phone-call" size={100} color="black" />
         </View>
         <Text
@@ -26,7 +26,7 @@ const CallScreen = ({navigation}) => {
           Click to Call
         </Text>
         <View style={styles.callText}>
-          <Text style={{textAlign: 'center', lineHeight: 20}}>
+          <Text style={styles.callMessage}>
             We will accept / answer your call during our office hours 9am to 5pm
             (saturday to thursday)
           </Text>
@@ -55,16 +55,20 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  callIcon: {
+    padding: 10,
+    borderRadius: 10,
+  },
   call: {
     marginTop: 10,
     padding: 7,
-    backgroundColor: '#183153',
+    backgroundColor: '#551E18',
     textAlign: 'center',
     borderWidth: 1,
     borderRadius: 8,
     overflow: 'hidden',
     fontWeight: 'bold',
-    borderColor: '#183153',
+    borderColor: '#551E18',
     width: 150,
     color: '#FFF',
   },
@@ -73,6 +77,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginLeft: 4,
     marginRight: 4,
+  },
+
+  callMessage: {
+    textAlign: 'center',
+    lineHeight: 20,
   },
 });
 export default CallScreen;

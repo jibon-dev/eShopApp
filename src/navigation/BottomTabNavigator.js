@@ -58,6 +58,8 @@ const tabOptions = ({route}) => {
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={tabOptions}>
+      <Tab.Screen name={screens.HomeStack} component={HomeStackNavigator} />
+
       <Tab.Screen
         name={screens.ProductDetailStack}
         component={ProductDetailStackNavigator}
@@ -78,7 +80,6 @@ const BottomTabNavigator = () => {
         name={screens.OrderConfirmationStack}
         component={OrderConfirmationStackNavigator}
       />
-      <Tab.Screen name={screens.HomeStack} component={HomeStackNavigator} />
 
       <Tab.Screen
         name={screens.SignupStack}

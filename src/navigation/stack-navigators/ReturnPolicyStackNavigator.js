@@ -17,7 +17,7 @@ const ReturnPolicyStackNavigator = () => {
         headerShown: true,
         headerTintColor: '#ffffff',
         headerStyle: {
-          backgroundColor: '#183153',
+          backgroundColor: '#551E18',
           height: 50,
         },
         headerLeft: () => (
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   touchableButton: {
-    backgroundColor: '#183153',
+    backgroundColor: '#551E18',
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 3,

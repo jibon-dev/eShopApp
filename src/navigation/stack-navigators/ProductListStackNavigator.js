@@ -18,7 +18,7 @@ const ProductListStackNavigator = () => {
         headerShown: true,
         headerTintColor: '#ffffff',
         headerStyle: {
-          backgroundColor: '#183153',
+          backgroundColor: '#551E18',
           height: 50,
         },
         headerLeft: () => (

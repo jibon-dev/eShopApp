@@ -9,7 +9,7 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import React from 'react';
 
 const SignupScreen = ({navigation}) => {
   return (

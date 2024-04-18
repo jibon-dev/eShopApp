@@ -1,18 +1,22 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 // import RenderHtml from 'react-native-render-html';
 
 const Giveaway = () => {
   return (
     <View style={styles.mainContent}>
       <View style={styles.liveOfferContent}>
-        <Text style={styles.liveOfferTitle}>title</Text>
+        <Text style={styles.liveOfferTitle}>Bogo Offer</Text>
         {/* <View>
           <RenderHtml />
         </View> */}
       </View>
       <View style={styles.offerImage}>
-        <Text>Image or Text</Text>
+        <Image
+          source={require('../../assets/icon/no-photo.png')}
+          resizeMode={'contain'}
+          style={styles.liveOfferCardImage}
+        />
       </View>
     </View>
   );
