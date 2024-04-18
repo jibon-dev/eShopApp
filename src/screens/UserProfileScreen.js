@@ -74,7 +74,7 @@ const UserProfileScreen = ({navigation}) => {
             </View>
           </TouchableOpacity>
 
-          {/*Security & Privacy*/}
+          {/*Tracking My Parcel*/}
           <TouchableOpacity
             onPress={() => navigation.navigate('TrackingMyParcelStack')}>
             <View style={styles.userProfileContent}>
@@ -85,6 +85,30 @@ const UserProfileScreen = ({navigation}) => {
               </View>
               <View style={styles.profileInfo}>
                 <Text style={styles.profileInfoTitle}>Tracking My Parcel</Text>
+              </View>
+              <View style={styles.profileRightArrow}>
+                <Text>
+                  <MaterialIcons
+                    name="keyboard-arrow-right"
+                    size={24}
+                    color="black"
+                  />
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          {/*Purchase History*/}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PurchaseHistoryStack')}>
+            <View style={styles.userProfileContent}>
+              <View style={styles.profileIcon}>
+                <Text>
+                  <MaterialIcons name="read-more" size={24} color="black" />
+                </Text>
+              </View>
+              <View style={styles.profileInfo}>
+                <Text style={styles.profileInfoTitle}>Purchase History</Text>
               </View>
               <View style={styles.profileRightArrow}>
                 <Text>
