@@ -21,6 +21,9 @@ import ReturnPolicyStackNavigator from './stack-navigators/ReturnPolicyStackNavi
 import SecurityPrivacyStackNavigator from './stack-navigators/SecurityPrivacyStackNavigator';
 import TermsConditionStackNavigator from './stack-navigators/TermsConditionStackNavigator';
 import SettingStackNavigator from './stack-navigators/SettingStackNavigator';
+import LoginStackNavigator from './stack-navigators/LoginStackNavigator';
+import SignupStackNavigator from './stack-navigators/SignupStackNavigator';
+import LogoutStackNavigator from './stack-navigators/LogoutStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,6 +55,22 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={tabOptions}>
       <Tab.Screen name={screens.HomeStack} component={HomeStackNavigator} />
+
+      <Tab.Screen
+        name={screens.SignupStack}
+        component={SignupStackNavigator}
+        options={{
+          tabBarStyle: {display: 'none'},
+        }}
+      />
+      <Tab.Screen
+        name={screens.LoginStack}
+        component={LoginStackNavigator}
+        options={{
+          tabBarStyle: {display: 'none'},
+        }}
+      />
+
       <Tab.Screen name={screens.BrandStack} component={BrandStackNavigator} />
       <Tab.Screen
         name={screens.GiveawayStack}
