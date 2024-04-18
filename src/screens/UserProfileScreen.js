@@ -53,7 +53,8 @@ const UserProfileScreen = ({navigation}) => {
           </TouchableOpacity>
 
           {/*Security & Privacy*/}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SecurityPrivacyStack')}>
             <View style={styles.userProfileContent}>
               <View style={styles.profileIcon}>
                 <Text>
@@ -123,8 +124,9 @@ const UserProfileScreen = ({navigation}) => {
             </View>
           </TouchableOpacity>
 
-          {/*Terms & Conditions*/}
-          <TouchableOpacity>
+          {/*Terms & Conditions */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('TermsAndConditionStack')}>
             <View style={styles.userProfileContent}>
               <View style={styles.profileIcon}>
                 <Text>
