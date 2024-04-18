@@ -19,25 +19,20 @@ const Invoice = ({navigation}) => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <ScrollView>
-          <View style={{marginTop: 40}}>
+          <View style={styles.invoiceSpace}>
             <Text style={styles.thankYou}>Congratulations !</Text>
-            <Text style={{textAlign: 'center', marginTop: 10}}>
+            <Text style={styles.iconStyle}>
               <FontAwesome name="check-circle-o" size={80} color="green" />
             </Text>
             <Text style={styles.orderCompleted}>
               Your order has been placed
             </Text>
-            <Text
-              style={{textAlign: 'center', fontWeight: 'bold', marginTop: 2}}>
-              We will contact you soon
-            </Text>
+            <Text style={styles.contactSoon}>We will contact you soon</Text>
             <View style={styles.billingCard}>
               <Text style={styles.orderSummary}>Summary of your Order</Text>
               <View style={styles.orderSummaryContent}>
                 <View style={styles.orderSummaryLeftContent}>
-                  <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
-                    Invoice no
-                  </Text>
+                  <Text style={styles.textInfo}>Invoice no</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
                   <Text>: ee</Text>
@@ -45,9 +40,7 @@ const Invoice = ({navigation}) => {
               </View>
               <View style={styles.orderSummaryContent}>
                 <View style={styles.orderSummaryLeftContent}>
-                  <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
-                    Phone no
-                  </Text>
+                  <Text style={styles.textInfo}>Phone no</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
                   <Text>: 44</Text>
@@ -55,9 +48,7 @@ const Invoice = ({navigation}) => {
               </View>
               <View style={styles.orderSummaryContent}>
                 <View style={styles.orderSummaryLeftContent}>
-                  <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
-                    Amount to be paid
-                  </Text>
+                  <Text style={styles.textInfo}>Amount to be paid</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
                   <Text>: 700 ৳</Text>
@@ -65,9 +56,7 @@ const Invoice = ({navigation}) => {
               </View>
               <View style={styles.orderSummaryContent}>
                 <View style={styles.orderSummaryLeftContent}>
-                  <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
-                    Address
-                  </Text>
+                  <Text style={styles.textInfo}>Address</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
                   <Text>Add</Text>
@@ -75,30 +64,24 @@ const Invoice = ({navigation}) => {
               </View>
               <View style={styles.orderSummaryContent}>
                 <View style={styles.orderSummaryLeftContent}>
-                  <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
-                    Track your order
-                  </Text>
+                  <Text style={styles.textInfo}>Track your order</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate('TrackingMyParcelStack')
                     }>
-                    <Text style={{marginBottom: 5, color: 'blue'}}>
-                      : Click Here
-                    </Text>
+                    <Text style={styles.textInfo}>: Click Here</Text>
                   </TouchableOpacity>
                 </View>
               </View>
 
-              <Text style={{marginTop: 4, textAlign: 'justify'}}>
-                <Text style={{fontWeight: 'bold', marginRight: 4}}>
-                  Note :{' '}
-                </Text>
+              <View style={styles.textMessage}>
+                <Text style={styles.textInfo}>Note : </Text>
                 Dear Sir/Ma'am, payment are cash on delivery. Please check your
                 products in front of the delivery man. For any help, please call
                 as @ 01305-606540.
-              </Text>
+              </View>
             </View>
 
             <View style={styles.downloadIInvoice}>
@@ -109,10 +92,10 @@ const Invoice = ({navigation}) => {
                 <Text style={styles.downloadInvoiceButton}>Print Invoice</Text>
               </TouchableOpacity>
             </View>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <View style={styles.showMore}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('HomeStack')}>
-                <Text style={styles.shopMore}>Shop More</Text>
+                <Text style={styles.shopMoreBtn}>Shop More</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -139,6 +122,24 @@ const styles = StyleSheet.create({
     }),
     margin: 5,
     // backgroundColor: "red"
+  },
+  invoiceSpace: {marginTop: 40},
+  iconStyle: {
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  contactSoon: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: 2,
+  },
+  textInfo: {
+    marginBottom: 5,
+    fontWeight: 'bold',
+  },
+  textMessage: {
+    marginTop: 4,
+    textAlign: 'justify',
   },
 
   billing: {
@@ -199,7 +200,11 @@ const styles = StyleSheet.create({
     borderColor: '#183153',
     marginTop: 20,
   },
-  shopMore: {
+  showMore: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  shopMoreBtn: {
     padding: 7,
     backgroundColor: '#183153',
     color: '#FFF',
