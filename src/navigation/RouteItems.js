@@ -34,11 +34,20 @@ export const screens = {
   CheckoutStack: 'CheckoutStack',
   Checkout: 'Checkout',
 
+  InvoiceStack: 'InvoiceStack',
+  Invoice: 'Invoice',
+
   OrderConfirmationStack: 'OrderConfirmationStack',
   OrderConfirmation: 'OrderConfirmation',
 
   SearchStack: 'SearchStack',
   Search: 'Search',
+
+  ProductListStack: 'ProductListStack',
+  ProductList: 'ProductList',
+
+  ProductDetailStack: 'ProductDetailStack',
+  ProductDetail: 'ProductDetail',
 
   /*------------------------------------
         User Profile
@@ -198,6 +207,37 @@ export const routes = [
         color={focused ? 'black' : '#969696'}
       />
     ),
+  },
+
+  // 8. ProductList Category =============================
+  {
+    name: screens.ProductListStack,
+    focusedRoute: screens.ProductListStack,
+    title: 'ProductList',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  {
+    name: screens.ProductList,
+    focusedRoute: screens.ProductListStack,
+    title: 'ProductList',
+    showInTab: false,
+    showInDrawer: false,
+  },
+
+  {
+    name: screens.ProductDetailStack,
+    focusedRoute: screens.ProductDetailStack,
+    title: 'Product Detail',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  {
+    name: screens.ProductDetail,
+    focusedRoute: screens.ProductDetailStack,
+    title: 'Product Detail',
+    showInTab: false,
+    showInDrawer: false,
   },
 
   // Brand ====================================
@@ -545,5 +585,21 @@ export const routes = [
         color={focused ? 'black' : '#969696'}
       />
     ),
+  },
+
+  // 14. InvoiceStack =======================
+  {
+    name: screens.InvoiceStack,
+    focusedRoute: screens.InvoiceStack,
+    title: 'Invoice',
+    showInTab: false,
+    showInDrawer: true,
+  },
+  {
+    name: screens.Invoice,
+    focusedRoute: screens.InvoiceStack,
+    title: 'Invoice',
+    showInTab: false,
+    showInDrawer: false,
   },
 ];
