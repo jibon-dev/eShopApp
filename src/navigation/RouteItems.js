@@ -10,26 +10,53 @@ export const screens = {
   HomeStack: 'HomeStack',
   Home: 'Home',
 
-  AboutStack: 'AboutStack',
-  About: 'About',
-
   BrandStack: 'BrandStack',
   Brand: 'Brand',
 
   GiveawayStack: 'GiveawayStack',
   Giveaway: 'Giveaway',
 
+  CallStack: 'CallStack',
+  Call: 'Call',
+
   CartStack: 'CartStack',
   Cart: 'Cart',
-
-  ContactStack: 'ContactStack',
-  Contact: 'Contact',
 
   SearchStack: 'SearchStack',
   Search: 'Search',
 
+  /*------------------------------------
+        User Profile
+  -------------------------------------*/
   UserProfileStack: 'UserProfileStack',
   UserProfile: 'UserProfile',
+
+  PersonalInformationStack: 'PersonalInformationStack',
+  PersonalInformation: 'PersonalInformation',
+
+  TrackingMyParcelStack: 'TrackingMyParcelStack',
+  TrackingMyParcel: 'TrackingMyParcel',
+
+  PurchaseHistoryStack: 'PurchaseHistoryStack',
+  PurchaseHistory: 'PurchaseHistory',
+
+  ReturnPolicyStack: 'ReturnPolicyStack',
+  ReturnPolicy: 'ReturnPolicy',
+
+  SecurityPrivacyStack: 'SecurityPrivacyStack',
+  SecurityPrivacy: 'SecurityPrivacy',
+
+  TermsAndConditionStack: 'TermsAndConditionStack',
+  TermsAndCondition: 'TermsAndCondition',
+
+  AboutStack: 'AboutStack',
+  About: 'About',
+
+  ContactStack: 'ContactStack',
+  Contact: 'Contact',
+
+  SettingStack: 'SettingStack',
+  Setting: 'Setting',
 };
 
 export const routes = [
@@ -120,6 +147,36 @@ export const routes = [
     icon: focused => (
       <AntDesign
         name="gift"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+
+  // 6. Call ===================================
+  {
+    name: screens.CallStack,
+    focusedRoute: screens.CallStack,
+    title: 'Call Us',
+    showInTab: true,
+    showInDrawer: true,
+    icon: focused => (
+      <FontAwesome
+        name="phone"
+        size={focused ? 20 : 20}
+        color={focused ? 'black' : '#969696'}
+      />
+    ),
+  },
+  {
+    name: screens.Call,
+    focusedRoute: screens.CallStack,
+    title: 'Call Us',
+    showInTab: true,
+    showInDrawer: true,
+    icon: focused => (
+      <FontAwesome
+        name="phone"
         size={focused ? 20 : 20}
         color={focused ? 'black' : '#969696'}
       />
@@ -234,5 +291,38 @@ export const routes = [
     title: 'UserProfile',
     showInTab: false,
     showInDrawer: true,
+  },
+
+  // 17. Tracking My Parcel =========================
+  {
+    name: screens.TrackingMyParcelStack,
+    focusedRoute: screens.TrackingMyParcelStack,
+    title: 'Tracking My Parcel',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  // Tab
+  {
+    name: screens.TrackingMyParcel,
+    focusedRoute: screens.TrackingMyParcelStack,
+    title: 'Tracking My Parcel',
+    showInTab: false,
+    showInDrawer: false,
+  },
+
+  // 18. PurchaseHistoryStack ======================
+  {
+    name: screens.PurchaseHistoryStack,
+    focusedRoute: screens.PurchaseHistoryStack,
+    title: 'Purchase History',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  {
+    name: screens.PurchaseHistory,
+    focusedRoute: screens.PurchaseHistoryStack,
+    title: 'Purchase History',
+    showInTab: false,
+    showInDrawer: false,
   },
 ];
