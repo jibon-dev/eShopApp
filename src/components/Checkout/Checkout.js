@@ -62,14 +62,11 @@ const Checkout = ({navigation}) => {
               </View>
             </View>
             <Text style={styles.deliveryMethodTitle}>Select Delivery Area</Text>
-            <View style={{flexDirection: 'row', marginBottom: 10}}>
+            <View style={styles.delivery}>
               <View style={{flex: 1, margin: 4}}>
                 <TouchableOpacity>
                   <View style={styles.outSideDhakaButton}>
                     <View style={{flexDirection: 'row'}}>
-                      <View style={{flex: 1}}>
-                        <Text>Empty</Text>
-                      </View>
                       <View style={{flex: 4}}>
                         <Text>Inside Dhaka</Text>
                       </View>
@@ -95,16 +92,7 @@ const Checkout = ({navigation}) => {
             </View>
             {/*Address*/}
             <View style={styles.addressForm}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                  marginBottom: 10,
-                  marginTop: 5,
-                }}>
-                Add Address
-              </Text>
+              <Text style={styles.addressText}>Add Address</Text>
               {/*from CheckoutForm*/}
               <>
                 <View style={{flex: 1, flexDirection: 'row'}}>
@@ -119,7 +107,7 @@ const Checkout = ({navigation}) => {
                     </View>
                   </View>
                   <View style={{flex: 1}}>
-                    <View style={{marginBottom: 10}}>
+                    <View style={styles.marginBottomSpace}>
                       <TextInput
                         name="last_name"
                         placeholder="Last Name * "
@@ -129,7 +117,7 @@ const Checkout = ({navigation}) => {
                     </View>
                   </View>
                 </View>
-                <View style={{marginBottom: 10}}>
+                <View style={styles.marginBottomSpace}>
                   <TextInput
                     name="email"
                     placeholder="Email Address"
@@ -138,7 +126,7 @@ const Checkout = ({navigation}) => {
                     selectionColor="#183153"
                   />
                 </View>
-                <View style={{marginBottom: 10}}>
+                <View style={styles.marginBottomSpace}>
                   <TextInput
                     name="contact_number"
                     placeholder="Phone Number * "
@@ -148,7 +136,7 @@ const Checkout = ({navigation}) => {
                     // editable={false}
                   />
                 </View>
-                <View style={{marginBottom: 10}}>
+                <View style={styles.marginBottomSpace}>
                   <TextInput
                     name="address"
                     placeholder="Address (Ex. street name, street number, house/flat number) * "
@@ -156,7 +144,7 @@ const Checkout = ({navigation}) => {
                     selectionColor="#183153"
                   />
                 </View>
-                <View style={{marginBottom: 10}}>
+                <View style={styles.marginBottomSpace}>
                   <TextInput
                     name="location"
                     placeholder="Your area ( Ex. Mirpur, Dhanmondi ) *"
@@ -164,7 +152,7 @@ const Checkout = ({navigation}) => {
                     selectionColor="#183153"
                   />
                 </View>
-                <View style={{marginBottom: 10}}>
+                <View style={styles.marginBottomSpace}>
                   <TextInput
                     name="city"
                     placeholder="City ( Ex. Dhaka, Khulna, Chittagong ) *"
@@ -179,32 +167,27 @@ const Checkout = ({navigation}) => {
                   style={styles.checkoutAddressNoteForm}
                   selectionColor="#183153"
                 />
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginBottom: 10,
-                    flexWrap: 'wrap',
-                  }}>
+                <View style={styles.termPlace}>
                   <View>
-                    <Text style={{fontSize: 13, marginRight: 2}}>
+                    <Text style={styles.byPlace}>
                       By Clicking Place an order you also agree to all the
                     </Text>
                   </View>
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('TermsAndCondition')}>
-                      <Text style={{color: 'blue', fontSize: 13}}>
+                      <Text style={styles.termConditions}>
                         Terms & Conditions
                       </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('InvoiceStack')}>
                   <Text style={styles.placeAnOrder}>Place your order</Text>
                 </TouchableOpacity>
-
-                <View style={{marginBottom: 50}} />
+                <View style={styles.marginBottomStyle} />
               </>
             </View>
             <View style={styles.checkoutMargin} />
@@ -225,6 +208,11 @@ const styles = StyleSheet.create({
         marginBottom: 0,
       },
     }),
+  },
+
+  delivery: {
+    flexDirection: 'row',
+    marginBottom: 10,
   },
 
   checkoutProcess: {
@@ -491,6 +479,32 @@ const styles = StyleSheet.create({
         marginBottom: 0,
       },
     }),
+  },
+  addressText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 10,
+    marginTop: 5,
+  },
+  marginBottomSpace: {
+    marginBottom: 10,
+  },
+  termPlace: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    flexWrap: 'wrap',
+  },
+  byPlace: {
+    fontSize: 13,
+    marginRight: 2,
+  },
+  termConditions: {
+    color: 'blue',
+    fontSize: 13,
+  },
+  marginBottomStyle: {
+    marginBottom: 50,
   },
 });
 export default Checkout;

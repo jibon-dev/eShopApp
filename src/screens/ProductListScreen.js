@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   View,
@@ -8,21 +8,18 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+// import DropDownPicker from 'react-native-dropdown-picker';
 import ProductList from '../components/ProductList/ProductList';
 
-const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-  const paddingToBottom = 40;
-  return (
-    layoutMeasurement.height + contentOffset.y >=
-    contentSize.height - paddingToBottom
-  );
-};
+// const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+//   const paddingToBottom = 40;
+//   return (
+//     layoutMeasurement.height + contentOffset.y >=
+//     contentSize.height - paddingToBottom
+//   );
+// };
 
 const ProductListScreen = ({navigation, route}) => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-
   return (
     <SafeAreaView style={styles.productListContainer}>
       <View style={[styles.viewContainer]}>
@@ -33,20 +30,16 @@ const ProductListScreen = ({navigation, route}) => {
             </View>
           </View>
           <View style={styles.dropdownWrap}>
-            <DropDownPicker
-              open={open}
-              value={value}
-              setOpen={setOpen}
-              setValue={setValue}
+            {/* <DropDownPicker
               placeholder="Sort by value"
               style={styles.dropDownStyle}
-            />
+            /> */}
           </View>
         </View>
       </View>
       <View style={styles.productListWrap}>
         <ScrollView>
-          <ProductList />
+          <ProductList navigation={navigation} />
         </ScrollView>
       </View>
     </SafeAreaView>

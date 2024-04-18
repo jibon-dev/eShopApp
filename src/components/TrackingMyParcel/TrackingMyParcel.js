@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   TextInput,
   Platform,
 } from 'react-native';
@@ -32,18 +31,8 @@ const TrackingMyParcel = ({navigation}) => {
           <View style={styles.cardWrap}>
             <View style={styles.card}>
               <TouchableOpacity>
-                <View style={styles.cardImage}>
-                  <View style={styles.cardImageStyle}>
-                    {/* <Image
-                              source={{uri: item?.parcel_send_receipt}}
-                              style={styles.trackParcelImage}
-                            /> */}
-                    <Text>Image</Text>
-                  </View>
-                </View>
-
                 <View style={styles.noParcelFile}>
-                  <FontAwesome name="file-pdf-o" size={80} color="black" />
+                  <FontAwesome name="file-pdf-o" size={50} color="black" />
                 </View>
               </TouchableOpacity>
               <View style={styles.cardContent}>
@@ -55,11 +44,11 @@ const TrackingMyParcel = ({navigation}) => {
             </View>
           </View>
         </View>
-
-        <View style={styles.noParcel}>
+        {/* noParcel */}
+        {/* <View style={styles.noParcel}>
           <FontAwesome name="exclamation-circle" size={40} color="red" />
           <Text style={styles.noParcelText}>No matching parcel found</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

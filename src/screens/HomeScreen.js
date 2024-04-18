@@ -1,11 +1,14 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, SafeAreaView, TouchableOpacity, Text} from 'react-native';
 import Home from '../../src/components/Home/Home';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.containArea}>
       <Home />
+      <TouchableOpacity onPress={() => navigation.navigate('ProductListStack')}>
+        <Text>Product List</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

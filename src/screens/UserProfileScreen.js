@@ -19,7 +19,7 @@ const UserProfileScreen = ({navigation}) => {
       <View style={styles.userProfile}>
         <View style={styles.userProfileImageWrap}>
           <Image
-            source={require('../../src/assets/icon/user-icon.jpg')}
+            source={require('../assets/icon/user-icon.png')}
             style={styles.profileImage}
             resizeMode={'contain'}
           />

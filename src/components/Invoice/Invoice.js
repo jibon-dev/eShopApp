@@ -77,10 +77,7 @@ const Invoice = ({navigation}) => {
               </View>
 
               <View style={styles.textMessage}>
-                <Text style={styles.textInfo}>Note : </Text>
-                Dear Sir/Ma'am, payment are cash on delivery. Please check your
-                products in front of the delivery man. For any help, please call
-                as @ 01305-606540.
+                <Text style={styles.textInfo}>Note :</Text>
               </View>
             </View>
 

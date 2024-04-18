@@ -13,8 +13,11 @@ const Cart = () => {
   return (
     <View style={styles.mainContent}>
       <View style={styles.cartImageWrap}>
-        {/* <Image source={{uri: item.product.image}} style={styles.cartImage} /> */}
-        <Text>Image here</Text>
+        <Image
+          source={require('../../assets/icon/no-photo.png')}
+          resizeMode={'contain'}
+          style={styles.cartImage}
+        />
       </View>
       <View style={styles.cartContent}>
         <Text style={styles.cartTitle}>jibon Ahmed</Text>
