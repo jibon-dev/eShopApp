@@ -325,4 +325,55 @@ export const routes = [
     showInTab: false,
     showInDrawer: false,
   },
+
+  // 19. ReturnPolicy ============================
+  {
+    name: screens.ReturnPolicyStack,
+    focusedRoute: screens.ReturnPolicyStack,
+    title: 'Return Policy',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  // Tab
+  {
+    name: screens.ReturnPolicy,
+    focusedRoute: screens.ReturnPolicyStack,
+    title: 'Return Policy',
+    showInTab: false,
+    showInDrawer: false,
+  },
+
+  // 20. SecurityPrivacy ===========================
+  {
+    name: screens.SecurityPrivacyStack,
+    focusedRoute: screens.SecurityPrivacyStack,
+    title: 'Security Privacy',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  // Tab
+  {
+    name: screens.SecurityPrivacy,
+    focusedRoute: screens.SecurityPrivacyStack,
+    title: 'Security Privacy',
+    showInTab: false,
+    showInDrawer: false,
+  },
+
+  // 21. Terms & Condition ===========================
+  {
+    name: screens.TermsAndConditionStack,
+    focusedRoute: screens.TermsAndConditionStack,
+    title: 'TermsAndCondition',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  // Tab
+  {
+    name: screens.TermsAndCondition,
+    focusedRoute: screens.TermsAndConditionStack,
+    title: 'TermsAndCondition',
+    showInTab: false,
+    showInDrawer: false,
+  },
 ];
