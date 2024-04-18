@@ -29,7 +29,8 @@ const UserProfileScreen = ({navigation}) => {
         </View>
         <ScrollView>
           {/*Return Policy*/}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ReturnPolicyStack')}>
             <View style={styles.userProfileContent}>
               <View style={styles.profileIcon}>
                 <Text>
