@@ -31,6 +31,12 @@ export const screens = {
   CartStack: 'CartStack',
   Cart: 'Cart',
 
+  CheckoutStack: 'CheckoutStack',
+  Checkout: 'Checkout',
+
+  OrderConfirmationStack: 'OrderConfirmationStack',
+  OrderConfirmation: 'OrderConfirmation',
+
   SearchStack: 'SearchStack',
   Search: 'Search',
 
@@ -314,6 +320,38 @@ export const routes = [
         color={focused ? 'black' : '#969696'}
       />
     ),
+  },
+
+  // 12. Checkout Process ====================
+  {
+    name: screens.CheckoutStack,
+    focusedRoute: screens.CheckoutStack,
+    title: 'Checkout',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  {
+    name: screens.Checkout,
+    focusedRoute: screens.CheckoutStack,
+    title: 'Checkout',
+    showInTab: false,
+    showInDrawer: false,
+  },
+
+  // 13. Order ConfirmationStack ======================
+  {
+    name: screens.OrderConfirmationStack,
+    focusedRoute: screens.OrderConfirmationStack,
+    title: 'Order Confirmation',
+    showInTab: false,
+    showInDrawer: false,
+  },
+  {
+    name: screens.OrderConfirmation,
+    focusedRoute: screens.OrderConfirmationStack,
+    title: 'Order Confirmation',
+    showInTab: false,
+    showInDrawer: false,
   },
 
   // AboutStack ==============================================================
