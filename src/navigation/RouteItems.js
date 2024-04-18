@@ -34,6 +34,9 @@ export const screens = {
   CheckoutStack: 'CheckoutStack',
   Checkout: 'Checkout',
 
+  InvoiceStack: 'InvoiceStack',
+  Invoice: 'Invoice',
+
   OrderConfirmationStack: 'OrderConfirmationStack',
   OrderConfirmation: 'OrderConfirmation',
 
@@ -545,5 +548,21 @@ export const routes = [
         color={focused ? 'black' : '#969696'}
       />
     ),
+  },
+
+  // 14. InvoiceStack =======================
+  {
+    name: screens.InvoiceStack,
+    focusedRoute: screens.InvoiceStack,
+    title: 'Invoice',
+    showInTab: false,
+    showInDrawer: true,
+  },
+  {
+    name: screens.Invoice,
+    focusedRoute: screens.InvoiceStack,
+    title: 'Invoice',
+    showInTab: false,
+    showInDrawer: false,
   },
 ];

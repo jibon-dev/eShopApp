@@ -24,6 +24,8 @@ import SettingStackNavigator from './stack-navigators/SettingStackNavigator';
 import LoginStackNavigator from './stack-navigators/LoginStackNavigator';
 import SignupStackNavigator from './stack-navigators/SignupStackNavigator';
 import OrderConfirmationStackNavigator from './stack-navigators/OrderConfirmationStackNavigator';
+import CheckoutStackNavigator from './stack-navigators/CheckoutStackNavigator';
+import InvoiceStackNavigator from './stack-navigators/InvoiceStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +56,14 @@ const tabOptions = ({route}) => {
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={tabOptions}>
+      <Tab.Screen
+        name={screens.InvoiceStack}
+        component={InvoiceStackNavigator}
+      />
+      <Tab.Screen
+        name={screens.CheckoutStack}
+        component={CheckoutStackNavigator}
+      />
       <Tab.Screen
         name={screens.OrderConfirmationStack}
         component={OrderConfirmationStackNavigator}
