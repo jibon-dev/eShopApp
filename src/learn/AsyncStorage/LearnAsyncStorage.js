@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text, Platform, Button} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Home = () => {
+const LearnAsyncStorage = () => {
   const [user, setUser] = useState(null);
   const setData = async () => {
     await AsyncStorage.setItem('name', 'Jibon');
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default LearnAsyncStorage;
