@@ -22,7 +22,7 @@ const ProductDetailStackNavigator = () => {
         },
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('UserProfileStack')}
+            onPress={() => navigation.navigate('ProductListStack')}
             style={styles.headerLeft}>
             <Ionicons
               name="arrow-back-outline"

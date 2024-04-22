@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   productCard: {
     width: '31%',
     backgroundColor: '#FFF',
+    color:"#000",
     borderRadius: 7,
     overflow: 'hidden',
     elevation: 4,
@@ -73,7 +74,6 @@ const styles = StyleSheet.create({
   productCardOfferTitle: {
     position: 'absolute',
     color: '#FFF',
-    backgroundColor: '#E04F54',
     padding: 2,
     borderRadius: 5,
     overflow: 'hidden',
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   productCardTitle: {
     fontSize: 12,
     height: 45,
+    color:"#000"
   },
   productPriceContent: {
     flexDirection: 'row',

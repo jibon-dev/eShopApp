@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     overflow: 'hidden',
-    backgroundColor: '#FFF',
+    backgroundColor: '#FFFFFF',
     color: '#000',
   },
   statusBarFooter: {
