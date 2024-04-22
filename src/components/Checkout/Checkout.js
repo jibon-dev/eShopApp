@@ -80,7 +80,7 @@ const Checkout = ({navigation}) => {
                   <View style={styles.outSideDhakaButton}>
                     <View style={{flexDirection: 'row'}}>
                       <View style={{flex: 1}}>
-                        <Text>Empty</Text>
+                        {/* <Text>Empty</Text> */}
                       </View>
                       <View style={{flex: 4}}>
                         <Text>Outside Dhaka</Text>
