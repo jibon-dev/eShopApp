@@ -6,6 +6,8 @@ import {
   Text,
   Platform,
   ScrollView,
+  Image,
+  Dimensions
 } from 'react-native';
 import Loader from '../components/Loader/loader';
 import Home from '../../src/components/Home/Home';
@@ -42,7 +44,12 @@ const HomeScreen = ({navigation}) => {
       ) : (
         <View style={styles.container}>
           <ScrollView>
-            <Home sliders={sliders} />
+            {/* <Home sliders={sliders} /> */}
+            <Image
+              source={require('../assets/sliders/600x400.png')}
+              style={styles.image}
+              resizeMode="cover"
+            />
             {/* Hot Deals */}
             <View style={styles.hotDeals}>
               <Text style={styles.hotDealsTitle}>Hot Deals</Text>
@@ -85,6 +92,10 @@ const styles = StyleSheet.create({
         marginBottom: 0,
       },
     }),
+  },
+  image: {
+    width: '100%',
+    height: Dimensions.get('window').width * 0.6,
   },
   hotDeals: {
     overflow: 'hidden',
