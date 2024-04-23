@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Loader from '../Loader/loader';
-import { BASE_URL } from '../../api/api';
+import { BASE_URL, bela } from '../../api/api';
 
 const getTrackingMyParcelListData = async (mobile_no) => {
   const res = await bela(`{BASE_URL}/api/tracking-list/${mobile_no}`);
