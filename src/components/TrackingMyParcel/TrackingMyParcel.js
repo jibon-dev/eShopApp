@@ -1,15 +1,49 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
+  Image,
   TextInput,
-  Platform,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Loader from '../Loader/loader';
+import { BASE_URL } from '../../api/api';
+
+const getTrackingMyParcelListData = async (mobile_no) => {
+  const res = await bela(`{BASE_URL}/api/tracking-list/${mobile_no}`);
+  return res.data;
+};
 
 const TrackingMyParcel = ({navigation}) => {
+  const [trackList, setTrackList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const getTrackingList = () => {
+    setLoading(true);
+    getTrackingMyParcelListData(searchQuery)
+      .then(data => {
+        setTrackList(data);
+      })
+
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getTrackingList();
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setSearchQuery('');
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <View style={styles.trackingParcelContainer}>
       <View style={styles.brandSearchForm}>
@@ -19,37 +53,48 @@ const TrackingMyParcel = ({navigation}) => {
             placeholder="Search by contact number"
             textAlign="center"
             keyboardType="numeric"
+            onChangeText={text => setSearchQuery(text)}
             style={styles.searchStyleInput}
+            value={searchQuery}
             selectionColor="#183153"
           />
           <FontAwesome name="search" size={20} style={styles.searchIcon} />
         </View>
       </View>
 
-      <View>
-        <View style={styles.cardContainer}>
-          <View style={styles.cardWrap}>
-            <View style={styles.card}>
-              <TouchableOpacity>
-                <View style={styles.noParcelFile}>
-                  <FontAwesome name="file-pdf-o" size={50} color="black" />
+      {searchQuery === '' ? null : (
+        <View>
+          {loading ? (
+            <Loader />
+          ) : trackList.length > 0 ? (
+            trackList.map((item, index) => (
+              <View style={styles.cardContainer} key={index}>
+                <View style={styles.cardWrap}>
+                  <View style={styles.card}>
+                    <View style={styles.cardContent}>
+                      <Text style={styles.textStyle}>
+                        Invoice ID : {item?.invoice_number}
+                      </Text>
+                      <Text style={styles.textStyle}>
+                        Phone Number : {item?.phone_number}
+                      </Text>
+                      <Text style={styles.textStyle}>
+                        Delivery Status : {item?.delivery_conformations}
+                      </Text>
+                      <Text style={styles.textStyle}>Address : {item?.user_address}</Text>
+                    </View>
+                  </View>
                 </View>
-              </TouchableOpacity>
-              <View style={styles.cardContent}>
-                <Text style={styles.textStyle}>Invoice : Order05</Text>
-                <Text style={styles.textStyle}>Phone Number : 01987132107</Text>
-                <Text style={styles.textStyle}>Delivery Status : Success</Text>
-                <Text>Address : Dhaka, Bangladesh</Text>
               </View>
+            ))
+          ) : (
+            <View style={styles.noParcel}>
+              <FontAwesome name="exclamation-circle" size={40} color="red" />
+              <Text style={styles.noParcelText}>No matching parcel found</Text>
             </View>
-          </View>
+          )}
         </View>
-        {/* noParcel */}
-        {/* <View style={styles.noParcel}>
-          <FontAwesome name="exclamation-circle" size={40} color="red" />
-          <Text style={styles.noParcelText}>No matching parcel found</Text>
-        </View> */}
-      </View>
+      )}
     </View>
   );
 };
@@ -111,6 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     fontSize: 14,
     textAlign: 'left',
+    // color:"#000000"
   },
 
   noParcelFile: {
