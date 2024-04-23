@@ -28,54 +28,7 @@ const UserProfileScreen = ({navigation}) => {
           <Text style={styles.userProfileTitle}> Jibon Ahmed </Text>
         </View>
         <ScrollView>
-          {/*Return Policy*/}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ReturnPolicyStack')}>
-            <View style={styles.userProfileContent}>
-              <View style={styles.profileIcon}>
-                <Text>
-                  <MaterialIcons name="read-more" size={24} color="black" />
-                </Text>
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={styles.profileInfoTitle}>Return Policy</Text>
-              </View>
-              <View style={styles.profileRightArrow}>
-                <Text>
-                  <MaterialIcons
-                    name="keyboard-arrow-right"
-                    size={24}
-                    color="black"
-                  />
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          {/*Security & Privacy*/}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SecurityPrivacyStack')}>
-            <View style={styles.userProfileContent}>
-              <View style={styles.profileIcon}>
-                <Text>
-                  <MaterialIcons name="read-more" size={24} color="black" />
-                </Text>
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={styles.profileInfoTitle}>Security & Privacy</Text>
-              </View>
-              <View style={styles.profileRightArrow}>
-                <Text>
-                  <MaterialIcons
-                    name="keyboard-arrow-right"
-                    size={24}
-                    color="black"
-                  />
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-
+          
           {/*Tracking My Parcel*/}
           <TouchableOpacity
             onPress={() => navigation.navigate('TrackingMyParcelStack')}>
@@ -111,6 +64,54 @@ const UserProfileScreen = ({navigation}) => {
               </View>
               <View style={styles.profileInfo}>
                 <Text style={styles.profileInfoTitle}>Purchase History</Text>
+              </View>
+              <View style={styles.profileRightArrow}>
+                <Text>
+                  <MaterialIcons
+                    name="keyboard-arrow-right"
+                    size={24}
+                    color="black"
+                  />
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          {/*Return Policy*/}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ReturnPolicyStack')}>
+            <View style={styles.userProfileContent}>
+              <View style={styles.profileIcon}>
+                <Text>
+                  <MaterialIcons name="read-more" size={24} color="black" />
+                </Text>
+              </View>
+              <View style={styles.profileInfo}>
+                <Text style={styles.profileInfoTitle}>Return Policy</Text>
+              </View>
+              <View style={styles.profileRightArrow}>
+                <Text>
+                  <MaterialIcons
+                    name="keyboard-arrow-right"
+                    size={24}
+                    color="black"
+                  />
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          {/*Security & Privacy*/}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SecurityPrivacyStack')}>
+            <View style={styles.userProfileContent}>
+              <View style={styles.profileIcon}>
+                <Text>
+                  <MaterialIcons name="read-more" size={24} color="black" />
+                </Text>
+              </View>
+              <View style={styles.profileInfo}>
+                <Text style={styles.profileInfoTitle}>Security & Privacy</Text>
               </View>
               <View style={styles.profileRightArrow}>
                 <Text>

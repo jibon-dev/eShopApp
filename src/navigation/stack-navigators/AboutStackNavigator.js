@@ -20,7 +20,8 @@ const AboutStackNavigator = () => {
         },
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            // onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('UserProfileStack')}
             style={styles.headerLeft}>
             <AntDesign
               name="arrowleft"

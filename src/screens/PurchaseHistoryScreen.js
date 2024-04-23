@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,9 +11,41 @@ import {
   Platform,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {BASE_URL} from '../api/api';
+import Loader from '../components/Loader/loader';
+import { BASE_URL, bela } from '../api/api';
+
+const getPurchaseOrderData = async (number) => {
+  const res = await bela(`/api/purchase-order/${number}/`);
+  return res.data
+};
 
 const PurchaseHistoryScreen = ({navigation}) => {
+  const [purchaseOrder, setPurchaseOrder] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const getPurchaseOrderList = () => {
+    setLoading(true);
+    getPurchaseOrderData(searchQuery)
+      .then(data => {
+        setPurchaseOrder(data.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getPurchaseOrderList();
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setSearchQuery('');
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <View style={styles.purchaseContainer}>
       <View style={styles.sectionSearch}>
@@ -21,7 +54,9 @@ const PurchaseHistoryScreen = ({navigation}) => {
           placeholder="Search by number"
           textAlign="center"
           keyboardType="numeric"
+          onChangeText={text => setSearchQuery(text)}
           style={styles.searchStyleInput}
+          value={searchQuery}
           selectionColor="#183153"
         />
         <TouchableOpacity>
@@ -29,29 +64,46 @@ const PurchaseHistoryScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <ScrollView>
-        <View>
-          <View style={styles.card}>
-            <View style={styles.cardInvoice}>
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL(`${BASE_URL}/invoices/list/1`);
-                }}>
-                <Text style={{marginTop: 2}}>
-                  <FontAwesome name="file-pdf-o" size={60} color="black" />
+        {searchQuery !== '' && (
+          <View>
+            {loading ? (
+              <Loader />
+            ) : purchaseOrder.length > 0 ? (
+              purchaseOrder.map((item, index) => (
+                <View style={styles.card} key={index}>
+                  <View style={styles.cardInvoice}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        Linking.openURL(
+                          `${BASE_URL}/invoices/list/${item.slug}`,
+                        );
+                      }}>
+                      <Text style={{marginTop: 2}}>
+                        <FontAwesome
+                          name="file-pdf-o"
+                          size={60}
+                          color="black"
+                        />
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.cardContent}>
+                    <Text style={{marginTop: 10, textAlign: 'center'}}>
+                      Invoice No : {item.slug}
+                    </Text>
+                  </View>
+                </View>
+              ))
+            ) : (
+              <View style={styles.noPurchase}>
+                <FontAwesome name="exclamation-circle" size={40} color="red" />
+                <Text style={styles.noPurchaseText}>
+                  No matching data found
                 </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.cardContent}>
-              <Text style={{marginTop: 10, textAlign: 'center'}}>
-                Invoice No : slug
-              </Text>
-            </View>
+              </View>
+            )}
           </View>
-          <View style={styles.noPurchase}>
-            <FontAwesome name="exclamation-circle" size={40} color="red" />
-            <Text style={styles.noPurchaseText}>No matching data found</Text>
-          </View>
-        </View>
+        )}
       </ScrollView>
     </View>
   );
