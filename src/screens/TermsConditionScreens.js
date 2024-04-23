@@ -7,29 +7,50 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import {useWindowDimensions} from 'react-native';
+import { BASE_URL } from '../api/api';
+import Loader from '../components/Loader/loader';
+import TermsCondition from '../components/About/TermsCondition';
+
 
 const TermsConditionScreens = () => {
-  const {width} = useWindowDimensions();
+  const [loading, setLoading] = useState(true);
+  const [termsCondition, setTermsCondition] = useState([])
+
+  useEffect(() => {
+    const fetchTermsConditionData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/terms-and-conditions/`);
+        const data = await res.json();
+        setTermsCondition(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching Terms Condition data:', error);
+        setLoading(false);
+      }
+    };
+    fetchTermsConditionData();
+  }, []);
 
   return (
     <SafeAreaView style={styles.termsConditionContainer}>
-      <View style={styles.termsCondition}>
-        <ScrollView>
-          <View style={styles.termsConditionMargin}>
-            {/* <RenderHtml contentWidth={width} source={source} /> */}
-            <Text>Hollo world !</Text>
+      {
+        loading ?(
+          <Loader/>
+        ):
+        (
+          <View style={styles.termsCondition}>
+            <Text style={styles.termsConditionTitle}>Terms & Condition</Text>
+            <View style={styles.border}/>
+            <ScrollView>
+              <View style={styles.termsConditionMargin}>
+                <TermsCondition termsCondition={termsCondition}/>
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
+        )
+      }
     </SafeAreaView>
   );
-
-  // return (
-  //   <SafeAreaView style={styles.noDataContainer}>
-  //     <Text style={styles.noDataTitle}>No Data Found</Text>
-  //   </SafeAreaView>
-  // );
 };
 
 const styles = StyleSheet.create({
@@ -56,25 +77,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     overflow: 'hidden',
+    color:"#000000"
   },
-  termsConditionSubTitle: {
-    fontWeight: 'bold',
-    marginBottom: 10,
-    lineHeight: 20,
-  },
-  termsConditionText: {
-    textAlign: 'justify',
-    lineHeight: 24,
-    marginBottom: 10,
-  },
-  noDataContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  noDataTitle: {
-    fontWeight: 'bold',
+  border: {
+    marginTop:4,
+    borderBottomWidth: 0.9,
+    borderBottomColor: 'gray',
+    marginLeft:5,
+    marginRight:5
   },
 });
 
