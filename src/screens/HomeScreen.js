@@ -44,12 +44,8 @@ const HomeScreen = ({navigation}) => {
       ) : (
         <View style={styles.container}>
           <ScrollView>
-            {/* <Home sliders={sliders} /> */}
-            <Image
-              source={require('../assets/sliders/600x400.png')}
-              style={styles.image}
-              resizeMode="cover"
-            />
+            <Home sliders={sliders} />
+            
             {/* Hot Deals */}
             <View style={styles.hotDeals}>
               <Text style={styles.hotDealsTitle}>Hot Deals</Text>
