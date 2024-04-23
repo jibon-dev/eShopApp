@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -7,32 +7,46 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-// import {useWindowDimensions} from 'react-native';
-// import RenderHtml from 'react-native-render-html';
-// import Loader from '../components/Loader/loader';
+import Loader from '../components/Loader/loader';
+import ReturnPolicy from '../components/About/ReturnPolicy';
+import { BASE_URL } from '../api/api';
 
 const ReturnPolicyScreen = () => {
+  const [loading, setLoading] = useState(true);
+  const [returnPolicy, setReturnPolicy] = useState([])
+
+  useEffect(() => {
+    const fetchReturnPolicyData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/return-policy/`);
+        const data = await res.json();
+        setReturnPolicy(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching return policy data:', error);
+        setLoading(false);
+      }
+    };
+    fetchReturnPolicyData();
+  }, []);
+
   return (
     <SafeAreaView style={styles.returnPolicyContainer}>
-      <View style={styles.returnPolicy}>
-        <Text style={styles.returnPolicyTitle}>
-          Returns, Refunds and Exchange
-        </Text>
-        <ScrollView>
-          <View style={styles.returnPolicyMargin}>
-            {/* <RenderHtml contentWidth={width} source={source} /> */}
-            <Text>Test Here</Text>
+      {
+        loading ?
+        (<Loader/>):
+        (
+        <View style={styles.returnPolicy}>
+          <Text style={styles.returnPolicyTitle}>Returns, Refunds and Exchange</Text>
+          <View style={styles.border}/>
+          <ScrollView>
+            <ReturnPolicy returnPolicy={returnPolicy} />
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
+        )
+      }
     </SafeAreaView>
   );
-
-  // return (
-  //   <SafeAreaView style={styles.noDataContainer}>
-  //     <Text style={styles.noDataTitle}>No Data Found</Text>
-  //   </SafeAreaView>
-  // );
 };
 
 const styles = StyleSheet.create({
@@ -59,6 +73,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     overflow: 'hidden',
+    color:"#000000"
   },
   returnPolicySubTitle: {
     fontWeight: 'bold',
@@ -70,14 +85,12 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 10,
   },
-  noDataContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  noDataTitle: {
-    fontWeight: 'bold',
+  border: {
+    marginTop:4,
+    borderBottomWidth: 0.9,
+    borderBottomColor: 'gray',
+    marginLeft:5,
+    marginRight:5
   },
 });
 

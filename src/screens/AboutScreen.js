@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {StyleSheet, SafeAreaView, ScrollView, View, Text} from 'react-native';
 import About from '../../src/components/About/About';
+import Loader from '../components/Loader/loader';
 import {BASE_URL} from '../api/api';
 
 const AboutScreen = () => {
@@ -28,9 +29,13 @@ const AboutScreen = () => {
         <Loader />
       ) 
       : (
-        <ScrollView>
-          <About aboutData={aboutData}/>
-        </ScrollView>
+        <View style={styles.aboutContent}>
+          <Text style={styles.aboutTitle}>About Us</Text>
+          <View style={styles.border}/>
+          <ScrollView>
+            <About aboutData={aboutData}/>
+            </ScrollView>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -39,6 +44,32 @@ const AboutScreen = () => {
 const styles = StyleSheet.create({
   mainArea: {
     flex: 1,
+  },
+  aboutContent: {
+    flex: 1,
+    ...Platform.select({
+      ios: {
+        marginBottom: '0%',
+      },
+      android: {
+        marginBottom: 0,
+      },
+    }),
+  },
+  aboutTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 6,
+    overflow: 'hidden',
+    color:"#000000"
+  },
+  border: {
+    marginTop:4,
+    borderBottomWidth: 0.9,
+    borderBottomColor: 'gray',
+    marginLeft:5,
+    marginRight:5
   },
 });
 

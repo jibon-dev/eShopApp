@@ -9,21 +9,30 @@ const About = ({aboutData}) => {
     baseStyle: { lineHeight: 25, color:"#000" }
   };
 
-  return (
-    <View style={styles.contactContainer}>
-      <View style={styles.contact}>
-        {aboutData.map((about, index) => (
-            <RenderHtml
-              key={index}
-              source={{ html: about?.description }}
-              contentWidth={width}
-              {...renderHtmlOptions}
-            />
-          ))
-        }
+  if (aboutData) {
+    return (
+      <View style={styles.contactContainer}>
+        <View style={styles.contact}>
+          {aboutData.map((about, index) => (
+              <RenderHtml
+                key={index}
+                source={{ html: about?.description }}
+                contentWidth={width}
+                {...renderHtmlOptions}
+              />
+            ))
+          }
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
+  else{
+    return (
+      <SafeAreaView style={styles.noDataContainer}>
+        <Text style={styles.noDataTitle}>No Data Found</Text>
+      </SafeAreaView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -42,7 +51,16 @@ const styles = StyleSheet.create({
         marginBottom: 0,
       },
     }),
-  }
+  },
+  noDataContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noDataTitle: {
+    fontWeight: 'bold',
+  },
 });
 
 export default About;
