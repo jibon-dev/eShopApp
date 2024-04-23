@@ -7,30 +7,48 @@ import {
   SafeAreaView,
   Platform,
 } from 'react-native';
-import {useWindowDimensions} from 'react-native';
-// import RenderHtml from 'react-native-render-html';
+import { BASE_URL } from '../api/api';
+import Loader from '../components/Loader/loader';
+import SecurityPrivacy from '../components/About/SecurityPrivacy';
 
 const SecurityPrivacyScreens = () => {
-  const {width} = useWindowDimensions();
+  
+  const [loading, setLoading] = useState(true);
+  const [securityPrivacy, setSecurityPrivacy] = useState([])
+
+  useEffect(() => {
+    const fetchSecurityPrivacyData = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/security-privacy/`);
+        const data = await res.json();
+        setSecurityPrivacy(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching security privacy data:', error);
+        setLoading(false);
+      }
+    };
+    fetchSecurityPrivacyData();
+  }, []);
 
   return (
     <SafeAreaView style={styles.securityPrivacyContainer}>
-      <View style={styles.securityPrivacy}>
-        <ScrollView>
-          <View style={styles.securityPrivacyMargin}>
-            {/* <RenderHtml contentWidth={width} source={source} /> */}
-            <Text>Text Here .........</Text>
-          </View>
-        </ScrollView>
-      </View>
+      {
+        loading?(<Loader />):
+        (
+          <View style={styles.securityPrivacy}>
+            <Text style={styles.securityPrivacyTitle}>Security & Privacy</Text>
+            <View style={styles.border}/>
+            <ScrollView>
+              <View style={styles.securityPrivacyMargin}>
+                <SecurityPrivacy securityPrivacy={securityPrivacy}/>
+              </View>
+            </ScrollView>
+        </View>
+        )
+      }
     </SafeAreaView>
   );
-
-  // return (
-  //   <SafeAreaView style={styles.noDataContainer}>
-  //     <Text style={styles.noDataTitle}>No Data Found</Text>
-  //   </SafeAreaView>
-  // );
 };
 const styles = StyleSheet.create({
   securityPrivacyContainer: {
@@ -56,26 +74,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     overflow: 'hidden',
+    color:"#000000"
   },
-  securityPrivacySubTitle: {
-    fontWeight: 'bold',
-    marginBottom: 10,
-    lineHeight: 20,
-  },
-  securityPrivacyText: {
-    textAlign: 'justify',
-    lineHeight: 24,
-    marginBottom: 10,
-  },
-
-  noDataContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  noDataTitle: {
-    fontWeight: 'bold',
+  
+  border: {
+    marginTop:4,
+    borderBottomWidth: 0.9,
+    borderBottomColor: 'gray',
+    marginLeft:5,
+    marginRight:5
   },
 });
 export default SecurityPrivacyScreens;
