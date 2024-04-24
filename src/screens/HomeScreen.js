@@ -40,6 +40,20 @@ const HomeScreen = ({navigation}) => {
       }
     };
 
+    // Makeup Category ====================
+    const fetchMakeupCategory = async () =>{
+      try{
+        const res = await fetch(`${BASE_URL}/api/makeup-categories/`);
+        const data = await res.json();
+        setByMakeup(data);
+        setLoading(false);
+      }
+      catch(error){
+        console.error('Error fetching skin categories data:', error);
+        setLoading(false);
+      }
+    }
+
     // Skin categories ====================
     const fetchBySkinCategory =  async()=>{
       try{
@@ -69,6 +83,7 @@ const HomeScreen = ({navigation}) => {
     }
 
     fetchSliderData();
+    fetchMakeupCategory();
     fetchBySkinCategory();
     fetchByConcernCategory();
   }, []);
@@ -90,7 +105,7 @@ const HomeScreen = ({navigation}) => {
             {/* By Makeup */}
             <View style={styles.byMakeup}>
               <Text style={styles.byMakeupTitle}>By Makeup</Text>
-              <MakeUp navigation={navigation}/>
+              <MakeUp byMakeup={byMakeup} navigation={navigation}/>
             </View>
             {/* By Skin */}
             <View style={styles.bySkin}>
