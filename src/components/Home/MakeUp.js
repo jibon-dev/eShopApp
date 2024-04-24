@@ -9,8 +9,13 @@ const MakeUp = ({byMakeup, navigation}) => {
     <View style={globalStyle.container}>
       {
         byMakeup.map((makeup, index)=>(
-          <View style={globalStyle.card}>
-          <TouchableOpacity onPress={() => navigation.navigate('ProductListStack')}>
+          <View style={globalStyle.card} key={index}>
+          <TouchableOpacity onPress={() =>
+              navigation.navigate('ProductListStack', {
+                screen: 'ProductList',
+                params: {query: `solution/${makeup.slug}`},
+              })
+            }>
             <View style={globalStyle.cardContent}>
               {
                 makeup.image?(

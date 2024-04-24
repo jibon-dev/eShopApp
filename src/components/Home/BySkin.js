@@ -10,7 +10,10 @@ const BySkin = ({navigation, byMakeup}) => {
           <View style={globalStyle.card} key={index}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ProductListStack')
+                navigation.navigate('ProductListStack', {
+                  screen: 'ProductList',
+                  params: {query: `solution/${skin.slug}`},
+                })
               }>
               <View style={globalStyle.cardContent}>
                 {

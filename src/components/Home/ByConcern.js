@@ -10,7 +10,10 @@ const ByConcern = ({navigation, byConcern}) => {
         <View style={globalStyle.card} key={index}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ProductListStack')
+                navigation.navigate('ProductListStack', {
+                  screen: 'ProductList',
+                  params: {query: `solution/${concern.slug}`},
+                })
               }>
               <View style={globalStyle.cardContent}>
                 {

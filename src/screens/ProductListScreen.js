@@ -20,6 +20,8 @@ import ProductList from '../components/ProductList/ProductList';
 // };
 
 const ProductListScreen = ({navigation, route}) => {
+  const url_suffix = route?.params?.query;
+  console.log("Url ====== :" ,url_suffix)
   return (
     <SafeAreaView style={styles.productListContainer}>
       <View style={[styles.viewContainer]}>
