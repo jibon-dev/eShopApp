@@ -1,6 +1,7 @@
 
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+// import { screens } from '../../navigation/RouteItems';
 
 const Brand = ({brandValue, searchValue, navigation}) => {
     return (
@@ -9,7 +10,8 @@ const Brand = ({brandValue, searchValue, navigation}) => {
                 brandValue.length > 0 ? brandValue.map((brand, index) => (
                         <View style={styles.brandCard} key={index}>
                             <TouchableOpacity
-                                onPress={() => navigation.navigate('ProductList', {
+                                onPress={() => navigation.navigate('ProductListStack', {
+                                    screens:'ProductList',
                                     query: `brand/${brand.slug}`})}>
                                 <Image source={{uri: brand.image}} style={styles.brandCardImage}/>
                                 {

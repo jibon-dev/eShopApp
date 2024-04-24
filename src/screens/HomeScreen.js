@@ -10,6 +10,7 @@ import {
   Dimensions,
   Alert
 } from 'react-native';
+import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
 import Loader from '../components/Loader/loader';
 import Home from '../../src/components/Home/Home';
 import HotDeals from '../../src/components/Home/HotDeals';
@@ -39,6 +40,11 @@ const HomeScreen = ({navigation}) => {
         setLoading(false);
       }
     };
+
+    getHotDealsProductsOfferList().then(data => {
+      setHotDeals(data);
+      setLoading(false);
+    });
 
     // Makeup Category ====================
     const fetchMakeupCategory = async () =>{
@@ -100,7 +106,7 @@ const HomeScreen = ({navigation}) => {
             {/* Hot Deals */}
             <View style={styles.hotDeals}>
               <Text style={styles.hotDealsTitle}>Hot Deals</Text>
-              <HotDeals navigation={navigation} />
+              <HotDeals hotDeals={hotDeals} navigation={navigation} />
             </View>
             {/* By Makeup */}
             <View style={styles.byMakeup}>

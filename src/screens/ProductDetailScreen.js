@@ -1,22 +1,3 @@
-// import {StyleSheet, Text, View} from 'react-native';
-// import React from 'react';
-
-// const ProductDetailScreen = () => {
-//   return (
-//     <View styles={styles.container}>
-//       <Text>ProductDetailScreen</Text>
-//     </View>
-//   );
-// };
-
-// export default ProductDetailScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-// });
-
 
 import React, {
   useState,
@@ -36,133 +17,220 @@ import {
   FlatList,
   Alert,
   Dimensions,
-  Image
 } from 'react-native';
-
-import RelatedProduct from '../components/RelatedProduct/RelatedProduct';
-
-
-const images = [
-  'https://via.placeholder.com/300',
-  'https://via.placeholder.com/400',
-  'https://via.placeholder.com/500'
-];
-
 
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const ProductDetailScreen = ({navigation}) => {
+import RelatedProduct from '../components/ProductDetails/RelatedProduct';
+import ProductDetailSliderImage from '../components/ProductDetails/ProductDetailSliderImage';
+import Loader from '../components/Loader/loader';
+import {getProduct} from '../api/Products/products';
+import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
+
+const ProductDetailScreen = ({navigation, route}) => {
+  const [productData, setProductData] = useState({});
+  const [hotDeals, setHotDeals] = useState([]);
+  const [productCounter, setProductCounter] = useState(1);
+  const [loader, setLoader] = useState(true);
+  const {product} = route.params;
+
+  useEffect(() => {
+    
+    getProduct(product.slug).then(data => {
+      setProductData(data);
+      setLoader(false);
+    });
+
+    getHotDealsProductsOfferList().then(data => {
+      setHotDeals(data);
+    });
+  }, [product]);
+
+
+  function Pagination({index}) {
+    return (
+      <View style={styles.pagination} pointerEvents="none">
+        {productData.product_list_data.map((_, i) => {
+          return (
+            <View
+              key={i}
+              style={[
+                styles.paginationDot,
+                index === i
+                  ? styles.paginationDotActive
+                  : styles.paginationDotInactive,
+              ]}
+            />
+          );
+        })}
+      </View>
+    );
+  }
+
+  const [index, setIndex] = useState(0);
+  const indexRef = useRef(index);
+  indexRef.current = index;
+  const onScroll = useCallback(event => {
+    const slideSize = event.nativeEvent.layoutMeasurement.width;
+    const index = event.nativeEvent.contentOffset.x / slideSize;
+    const roundIndex = Math.round(index);
+
+    const distance = Math.abs(roundIndex - index);
+
+    // Prevent one pixel triggering setIndex in the middle
+    // of the transition. With this we have to scroll a bit
+    // more to trigger the index change.
+    const isNoMansLand = distance > 0.4;
+
+    if (roundIndex !== indexRef.current && !isNoMansLand) {
+      setIndex(roundIndex);
+    }
+  }, []);
+
+  const flatListOptimizationProps = {
+    initialNumToRender: 0,
+    maxToRenderPerBatch: 1,
+    removeClippedSubviews: true,
+    scrollEventThrottle: 16,
+    windowSize: 2,
+    getItemLayout: useCallback(
+      (_, index) => ({
+        index,
+        length: windowWidth,
+        offset: index * windowWidth,
+      }),
+      [],
+    ),
+  };
+
+  const renderItem = useCallback(function renderItem({item, index}) {
+    return (
+      <ProductDetailSliderImage
+        item={item}
+        navigation={navigation}
+        key={index}
+      />
+    );
+  }, []);
+
   return (
     <SafeAreaView style={styles.productDetailContainer}>
-      <View style={styles.productDetailWrap}>
-        <ScrollView>
-          <View style={styles.productDetailContent}>
-            <Image
-              source={require('../assets/icon/no-photo.png')}
-                style={styles.productImage}
-            />
-            <Text style={styles.productDetailMainTitle}>
-              Huawei nova 5T
-            </Text>
-            <View style={{marginBottom: 10}} />
-            <View style={{flexDirection: 'row'}}>
-              <View style={{width: '75%', marginBottom: 20}}>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.productDetailHealthTips}>
-                    Health tips : health tips
-                  </Text>
-                </View>
+      {loader ? (
+        <Loader />
+      ) : (
+        <View style={styles.productDetailWrap}>
+          <ScrollView>
+            <View style={styles.productDetailContent}>
+              <Text style={styles.productDetailMainTitle}>
+                {productData?.title}
+              </Text>
+              <View>
+                <FlatList
+                  data={productData.product_list_data}
+                  style={styles.carousel}
+                  renderItem={renderItem}
+                  pagingEnabled
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  bounces={false}
+                  onScroll={onScroll}
+                  {...flatListOptimizationProps}
+                />
+                <View style={{marginTop: 15}} />
+                <Pagination index={index} />
               </View>
-              <View style={{width: '18%'}}>
-                <View style={{flex: 1}}>
+              <View style={{marginBottom: 10}} />
+              <View style={{flexDirection: 'row'}}>
+                <View style={{width: '75%', marginBottom: 20}}>
                   <View style={{flexDirection: 'row'}}>
-                    <View>
-                      <TouchableOpacity>
-                        <Text
-                          style={styles.minusButtonDis}>
-                          -
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity>
-                      <Text style={styles.quantityButton}>
-                        2
-                      </Text>
-                    </TouchableOpacity>
-                    <View>
-                      <TouchableOpacity>
-                        <Text
-                          style={styles.plusButtonDis}>
-                          +
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                    <Text style={styles.productDetailHealthTips}>
+                      Health tips : {productData.health_tips}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{width: '18%'}}>
+                  <View style={{flex: 1}}>
+                    {productData.active && (
+                      <View style={{flexDirection: 'row'}}>
+                        <View>
+                          <TouchableOpacity>
+                            <Text style={styles.plusButton}>
+                              -
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity>
+                          <Text style={styles.quantityButton}>
+                            1
+                          </Text>
+                        </TouchableOpacity>
+                        <View>
+                          <TouchableOpacity>
+                            <Text style={styles.minusButton}>
+                              +
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    )}
                   </View>
                 </View>
               </View>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <View style={{width: '70%', marginTop: 10}}>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={{fontWeight: 'bold', color:"#000"}}>Price: ৳</Text>
-                  <Text style={styles.productDetailNewPrice}>
-                    200
-                  </Text>
-                  <Text style={styles.productDetailOldPrice}>
-                    300
-                  </Text>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{width: '70%', marginTop: 10}}>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={{fontWeight: 'bold'}}>Price: ৳</Text>
+                    <Text style={styles.productDetailNewPrice}>
+                      {productData?.app_price}
+                    </Text>
+                    <Text style={styles.productDetailOldPrice}>
+                      {productData?.old_price}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{width: '30%'}}>
+                  {productData.active ? (
+                    <TouchableOpacity>
+                      <Text style={styles.addToCartButton}>Buy Now</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <Text style={styles.outOfStockButton}>Out Of Stock</Text>
+                  )}
                 </View>
               </View>
-              <View style={{width: '30%'}}>
-                
-                  <TouchableOpacity>
-                    <Text style={styles.addToCartButton}>Buy Now</Text>
-                  </TouchableOpacity>
-                
-                {/* <Text style={styles.outOfStockButton}>Out Of Stock</Text> */}
+              <Text style={styles.productDetailWeight}>
+                Weight : {productData?.weight}
+              </Text>
+              <Text style={{fontWeight: 'bold', marginTop: 20}}>
+                Description :
+              </Text>
+              <Text style={styles.productDetailDescription}>
+                <Text style={{textAlign: 'justify', lineHeight: 25}}>
+                  {productData?.description}
+                </Text>
+              </Text>
+            </View>
+            {/* Related Product */}
+            <View style={styles.relatedProduct}>
+              <Text style={styles.relatedProductTitle}>Hot Deals </Text>
+              <View style={styles.relatedProductContent}>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={hotDeals}
+                  renderItem={({item}) => {
+                    return (
+                      <>
+                        <RelatedProduct item={item} navigation={navigation} />
+                      </>
+                    );
+                  }}
+                />
               </View>
             </View>
-            <Text style={styles.productDetailWeight}>
-              Weight : 200 ML
-            </Text>
-            <Text style={{fontWeight: 'bold', marginTop: 20, color:"#000"}}>
-              Description :
-            </Text>
-            <Text style={styles.productDetailDescription}>
-              <Text style={styles.productDescription}>
-                description
-              </Text>
-            </Text>
-          </View>
-          {/* Related Product */}
-          <View style={styles.relatedProduct}>
-            <Text style={styles.relatedProductTitle}>Related Products</Text>
-            <View style={styles.relatedProductContent}>
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={images}
-                renderItem={({item}) => {
-                  return (
-                    <>
-                      <RelatedProduct item={item} navigation={navigation} />
-                    </>
-                  );
-                }}
-              />
-              {/* <FlatList
-                data={images}
-                renderItem={({ item }) => (
-                  <Image source={{ uri: item }} style={styles.image} />
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-              /> */}
-            </View>
-          </View>
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -170,11 +238,9 @@ const ProductDetailScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   productDetailContainer: {
     flex: 1,
-    color:"#000"
   },
   productDetailWrap: {
     flex: 1,
-    color:"#000",
     ...Platform.select({
       ios: {
         marginBottom: '0%',
@@ -184,20 +250,12 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  productImage: {
-    width: '100%',
-    height: 300,
-    resizeMode: 'cover',
-    borderRadius: 8,
-    marginBottom:5
-  },
   productDetailTitleWrap: {
     marginTop: 5,
     marginLeft: 10,
     marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    color:"#000"
   },
   productDetailTitle: {
     fontSize: 22,
@@ -205,10 +263,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'green',
     borderBottomWidth: 2,
     marginBottom: 5,
-    color:"#000"
-  },
-  productDescription:{
-    textAlign: 'justify', lineHeight: 25, color:"#000"
   },
   /* Product Detail Content */
   productDetailContent: {
@@ -224,7 +278,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'left',
-    color:"#000"
   },
   productDetailDiscount: {
     fontWeight: 'bold',
@@ -235,25 +288,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 2,
     marginBottom: 5,
-    color:"#000"
   },
   productDetailWeight: {
     fontWeight: 'bold',
     marginTop: 5,
     marginBottom: 5,
-    color:"#000"
   },
   productDetailOldPrice: {
     color: '#E04F54',
     marginLeft: 10,
     fontWeight: 'bold',
     textDecorationLine: 'line-through',
-    color:"#000"
   },
   productDetailNewPrice: {
     fontWeight: 'bold',
     marginLeft: 10,
-    color:"#000"
   },
   addToCartButton: {
     padding: 7,
@@ -264,7 +313,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     fontWeight: 'bold',
     borderColor: '#F9C65D',
-    color:"#000"
   },
   outOfStockButton: {
     padding: 1,
@@ -331,7 +379,7 @@ const styles = StyleSheet.create({
   minusButton: {
     padding: 8,
     backgroundColor: '#ccccca',
-    color:"#000",
+    color: 'black',
     fontSize: 14,
     fontWeight: 'bold',
     justifyContent: 'center',
@@ -366,15 +414,25 @@ const styles = StyleSheet.create({
   relatedProductTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 5,
     marginLeft: 10,
     marginRight: 10,
     textAlign: 'center',
-    color:"#000",
   },
   relatedProductContent: {
     flex: 1,
     flexDirection: 'row',
+  },
+
+  /* Comment & Replay */
+  commentReplay: {
+    marginBottom: 1,
+  },
+  commentTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
   },
 
   // Related Slider
@@ -398,7 +456,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
   },
   carousel: {flex: 1},
-
 });
 
 export default ProductDetailScreen;
