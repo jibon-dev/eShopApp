@@ -7,8 +7,10 @@ import {
   Platform,
   ScrollView,
   Image,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
+import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
 import Loader from '../components/Loader/loader';
 import Home from '../../src/components/Home/Home';
 import HotDeals from '../../src/components/Home/HotDeals';
@@ -21,6 +23,10 @@ import {BASE_URL} from '../api/api';
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [sliders, setSliders] = useState([]);
+  const [hotDeals, setHotDeals] = useState([]);
+  const [byMakeup, setByMakeup] = useState([]);
+  const [bySkin, setBySkin] = useState([]);
+  const [byConcern, setByConcern] = useState([]);
 
   useEffect(() => {
     const fetchSliderData = async () => {
@@ -34,7 +40,58 @@ const HomeScreen = ({navigation}) => {
         setLoading(false);
       }
     };
+
+    getHotDealsProductsOfferList().then(data => {
+      setHotDeals(data);
+      setLoading(false);
+    });
+
+    // Makeup Category ====================
+    const fetchMakeupCategory = async () =>{
+      try{
+        const res = await fetch(`${BASE_URL}/api/makeup-categories/`);
+        const data = await res.json();
+        setByMakeup(data);
+        setLoading(false);
+      }
+      catch(error){
+        console.error('Error fetching skin categories data:', error);
+        setLoading(false);
+      }
+    }
+
+    // Skin categories ====================
+    const fetchBySkinCategory =  async()=>{
+      try{
+        const res =  await fetch(`${BASE_URL}/api/skin-categories/`);
+        const data  = await res.json();
+        setBySkin(data);
+        setLoading(false);
+      }
+      catch(error){
+        console.error('Error fetching skin categories data:', error);
+        setLoading(false);
+      }
+    }
+
+    // Concern categories ====================
+    const fetchByConcernCategory =  async ()=>{
+      try{
+        const res = await fetch(`${BASE_URL}/api/concern-categories/`);
+        const data = await res.json();
+        setByConcern(data);
+        setLoading(false)
+      }
+      catch (error){
+        console.error('Error fetching concern categories data:', error);
+        setLoading(false);
+      }
+    }
+
     fetchSliderData();
+    fetchMakeupCategory();
+    fetchBySkinCategory();
+    fetchByConcernCategory();
   }, []);
 
   return (
@@ -44,27 +101,27 @@ const HomeScreen = ({navigation}) => {
       ) : (
         <View style={styles.container}>
           <ScrollView>
-            <Home sliders={sliders} />
+            <Home sliders={sliders} navigation={navigation} />
             
             {/* Hot Deals */}
             <View style={styles.hotDeals}>
               <Text style={styles.hotDealsTitle}>Hot Deals</Text>
-              <HotDeals navigation={navigation} />
+              <HotDeals hotDeals={hotDeals} navigation={navigation} />
             </View>
             {/* By Makeup */}
             <View style={styles.byMakeup}>
               <Text style={styles.byMakeupTitle}>By Makeup</Text>
-              <MakeUp navigation={navigation}/>
+              <MakeUp byMakeup={byMakeup} navigation={navigation}/>
             </View>
             {/* By Skin */}
             <View style={styles.bySkin}>
               <Text style={styles.bySkinTitle}>By Skin</Text>
-              <BySkin navigation={navigation} />
+              <BySkin byMakeup={byMakeup} navigation={navigation} />
             </View>
             {/* ByConcern */}
             <View style={styles.byConcern}>
               <Text style={styles.byConcernTitle}>By Concern</Text>
-              <ByConcern navigation={navigation} />
+              <ByConcern byConcern={byConcern} navigation={navigation} />
             </View>
           </ScrollView>
         </View>

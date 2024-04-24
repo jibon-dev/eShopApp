@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import ProductListScreen from '../../screens/ProductListScreen';
+import ProductDetailScreen from '../../screens/ProductDetailScreen';
 // import ProductDetailScreen from '../../screens/ProductDetailScreen';
 
 const Stack = createStackNavigator();
@@ -77,14 +78,14 @@ const ProductListStackNavigator = () => {
           ),
         })}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="ProductDetail"
         component={ProductDetailScreen}
         options={({navigation, route}) => ({
           title: 'Product Details',
           headerTitleAlign: 'left',
         })}
-      /> */}
+      />
     </Stack.Navigator>
   );
 };

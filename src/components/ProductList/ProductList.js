@@ -9,209 +9,53 @@ import {
   Platform,
 } from 'react-native';
 
-const ProductList = ({navigation}) => {
+const ProductList = ({productList, navigation, loading}) => {
   return (
     <View>
       <View style={styles.container}>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
+        {productList.map((product, index) => (
+          <View style={styles.productCard} key={index}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ProductDetail', {
+                  // screen: 'ProductDetail',
+                  product: product,
+                })
+              }>
+              <View>
+                {
+                product.image?(<Image source={{uri: product.image}} style={styles.productCardImage}/>)
+                :(<Image source={{uri: product.image}} style={styles.productCardImage}/>)
+                }
               </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
+              <View style={styles.productCardContent}>
+                <Text style={styles.productCardTitle}>{product?.title}</Text>
+                {product.active ? (
+                  <Text style={styles.offerMessage}>
+                    {product?.app_discount} % off
+                  </Text>
+                ) : (
+                  <Text style={styles.outOfStockMessage}>Out of Stock</Text>
+                )}
+                <View style={styles.productPriceContent}>
+                  <Text style={styles.bdtSymbol}>৳</Text>
+                  <Text style={styles.productOldPrice}>
+                    {product?.old_price}
+                  </Text>
+                  <Text style={styles.productNewPrice}>
+                    {product?.app_price}
+                  </Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.productCard}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetailStack')}>
-            <Image
-              source={require('../../assets/icon/no-photo.png')}
-              resizeMode={'contain'}
-              style={styles.productCardImage}
-            />
-
-            <View style={styles.productCardContent}>
-              <Text style={styles.productCardTitle}>product Name</Text>
-              <Text style={styles.offerMessage}>89 % off</Text>
-              {/* <Text style={styles.outOfStockMessage}>Out of Stock</Text> */}
-
-              <View style={styles.productPriceContent}>
-                <Text style={styles.bdtSymbol}>৳</Text>
-                <Text style={styles.productOldPrice}>300</Text>
-                <Text style={styles.productNewPrice}>400</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
+            </TouchableOpacity>
+          </View>
+        ))}
       </View>
+      {loading && (
+        <View style={{justifyCenter: 'center'}}>
+          <ActivityIndicator size="large" color="black" />
+        </View>
+      )}
     </View>
   );
 };
@@ -221,12 +65,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 15,
+    marginTop: 5,
   },
   productCard: {
     width: '31%',
     backgroundColor: '#FFF',
-    color:"#000",
     borderRadius: 7,
     overflow: 'hidden',
     elevation: 4,
@@ -250,6 +93,7 @@ const styles = StyleSheet.create({
   productCardOfferTitle: {
     position: 'absolute',
     color: '#FFF',
+    backgroundColor: '#E04F54',
     padding: 2,
     borderRadius: 5,
     overflow: 'hidden',
@@ -264,7 +108,6 @@ const styles = StyleSheet.create({
   productCardTitle: {
     fontSize: 12,
     height: 45,
-    color:"#000"
   },
   productPriceContent: {
     flexDirection: 'row',

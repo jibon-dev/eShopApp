@@ -1,96 +1,40 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
-const HotDeals = ({navigation}) => {
+const HotDeals = ({hotDeals, navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.hotDealContent}>
-        <View style={styles.box}>
+        {hotDeals.map((item, index) => (
+          <View style={styles.box} key={index}>
             <TouchableOpacity
-                onPress={() =>
-                navigation.navigate('ProductDetailStack')}>
-                {/* <Image source={{uri: item.image}} style={styles.hotItemImage} /> */}
-                <Image
-                source={require('../../assets/icon/no-photo.png')}
-                style={styles.hotItemImage}
-                resizeMode={'contain'}
-            />
+              onPress={() =>
+                navigation.navigate('ProductDetailStack', {
+                  screen: 'ProductDetail',
+                  product: item,
+                })
+              }>
+                {
+                  item.image?(
+                    <Image source={{uri: item.image}} style={styles.hotItemImage} />
+                  ):
+                  (
+                    <Image source={require('../../assets/icon/no-photo.png')} style={styles.hotItemImage} resizeMode={'contain'}/>
+                  )
+                }
             </TouchableOpacity>
-        </View>
-        <View style={styles.box}>
-            <TouchableOpacity
-                onPress={() =>
-                navigation.navigate('ProductDetailStack')}>
-                <Image
-                source={require('../../assets/icon/no-photo.png')}
-                style={styles.hotItemImage}
-                resizeMode={'contain'}
-            />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.box}>
-            <TouchableOpacity
-                onPress={() =>
-                navigation.navigate('ProductDetailStack')}>
-                <Image
-                source={require('../../assets/icon/no-photo.png')}
-                style={styles.hotItemImage}
-                resizeMode={'contain'}
-            />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.box}>
-            <TouchableOpacity
-                onPress={() =>
-                navigation.navigate('ProductDetailStack')}>
-                <Image
-                source={require('../../assets/icon/no-photo.png')}
-                style={styles.hotItemImage}
-                resizeMode={'contain'}
-            />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.box}>
-            <TouchableOpacity
-                onPress={() =>
-                navigation.navigate('ProductDetailStack')}>
-                <Image
-                source={require('../../assets/icon/no-photo.png')}
-                style={styles.hotItemImage}
-                resizeMode={'contain'}
-            />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.box}>
-            <TouchableOpacity
-                onPress={() =>
-                navigation.navigate('ProductDetailStack')}>
-                <Image
-                source={require('../../assets/icon/no-photo.png')}
-                style={styles.hotItemImage}
-                resizeMode={'contain'}
-            />
-            </TouchableOpacity>
-        </View>
-        <View style={styles.box}>
-            <TouchableOpacity
-                onPress={() =>
-                navigation.navigate('ProductDetailStack')}>
-                <Image
-                source={require('../../assets/icon/no-photo.png')}
-                style={styles.hotItemImage}
-                resizeMode={'contain'}
-            />
-            </TouchableOpacity>
-        </View>
-        {/* Read more ====== */}
+          </View>
+        ))}
         <View style={styles.box}>
           <View style={styles.readMore}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ProductListStack')
+                navigation.navigate('ProductListStack', {
+                  screen: 'ProductList',
+                  params: {query: 'product-offer/offer'},
+                })
               }>
-              <Text style={styles.moreDeal}>More Deals</Text>
+              <Text style={{fontWeight: 'bold'}}>More Deals</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -104,7 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    color:"#000"
   },
   hotDealContent: {
     flex: 1,
@@ -139,9 +82,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  moreDeal:{
-    fontWeight: 'bold',
-    color:"#000"
-  }
 });
 export default HotDeals;
