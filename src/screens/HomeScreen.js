@@ -22,6 +22,9 @@ import {BASE_URL} from '../api/api';
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [sliders, setSliders] = useState([]);
+  const [hotDeals, setHotDeals] = useState([]);
+  const [byMakeup, setByMakeup] = useState([]);
+  const [bySkin, setBySkin] = useState([]);
   const [byConcern, setByConcern] = useState([]);
 
   useEffect(() => {
@@ -37,7 +40,21 @@ const HomeScreen = ({navigation}) => {
       }
     };
 
-    // concern-categories ====================
+    // Skin categories ====================
+    const fetchBySkinCategory =  async()=>{
+      try{
+        const res =  await fetch(`${BASE_URL}/api/skin-categories/`);
+        const data  = await res.json();
+        setBySkin(data);
+        setLoading(false);
+      }
+      catch(error){
+        console.error('Error fetching skin categories data:', error);
+        setLoading(false);
+      }
+    }
+
+    // Concern categories ====================
     const fetchByConcernCategory =  async ()=>{
       try{
         const res = await fetch(`${BASE_URL}/api/concern-categories/`);
@@ -52,6 +69,7 @@ const HomeScreen = ({navigation}) => {
     }
 
     fetchSliderData();
+    fetchBySkinCategory();
     fetchByConcernCategory();
   }, []);
 
@@ -77,7 +95,7 @@ const HomeScreen = ({navigation}) => {
             {/* By Skin */}
             <View style={styles.bySkin}>
               <Text style={styles.bySkinTitle}>By Skin</Text>
-              <BySkin navigation={navigation} />
+              <BySkin byMakeup={byMakeup} navigation={navigation} />
             </View>
             {/* ByConcern */}
             <View style={styles.byConcern}>
