@@ -47,19 +47,18 @@ export const globalStyle = StyleSheet.create({
         textAlign: "center",
         borderBottomLeftRadius: 7,
         borderBottomRightRadius: 7,
-        color:"#000",
     },
     title: {
         textAlign: "center",
         fontWeight: "bold",
         fontSize: 18,
-        color:"#000",
         // borderBottomWidth:2,
         // marginLeft:12,
         // marginRight:12,
         // borderBottomColor:"green",
         marginBottom: 5
     },
+
     addToCartButton: {
         padding: 7,
         backgroundColor: "#F9C65D",
@@ -69,6 +68,7 @@ export const globalStyle = StyleSheet.create({
         fontWeight: "bold",
         borderColor: "#A88342"
     },
+
     noDataContainer: {
         flex: 1,
         backgroundColor: '#fff',
@@ -78,6 +78,8 @@ export const globalStyle = StyleSheet.create({
     noDataTitle: {
         fontWeight: "bold",
     },
+
+
     sectionSearch: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -100,7 +102,9 @@ export const globalStyle = StyleSheet.create({
     searchIcon: {
         width: 30,
     },
+
     orderColor: {
         backgroundColor: "#E04F54",
     }
+
 });

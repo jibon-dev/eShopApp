@@ -7,7 +7,8 @@ import {
   Platform,
   ScrollView,
   Image,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 import Loader from '../components/Loader/loader';
 import Home from '../../src/components/Home/Home';
@@ -21,6 +22,7 @@ import {BASE_URL} from '../api/api';
 const HomeScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [sliders, setSliders] = useState([]);
+  const [byConcern, setByConcern] = useState([]);
 
   useEffect(() => {
     const fetchSliderData = async () => {
@@ -34,7 +36,23 @@ const HomeScreen = ({navigation}) => {
         setLoading(false);
       }
     };
+
+    // concern-categories ====================
+    const fetchByConcernCategory =  async ()=>{
+      try{
+        const res = await fetch(`${BASE_URL}/api/concern-categories/`);
+        const data = await res.json();
+        setByConcern(data);
+        setLoading(false)
+      }
+      catch (error){
+        console.error('Error fetching concern categories data:', error);
+        setLoading(false);
+      }
+    }
+
     fetchSliderData();
+    fetchByConcernCategory();
   }, []);
 
   return (
@@ -44,7 +62,7 @@ const HomeScreen = ({navigation}) => {
       ) : (
         <View style={styles.container}>
           <ScrollView>
-            <Home sliders={sliders} />
+            <Home sliders={sliders} navigation={navigation} />
             
             {/* Hot Deals */}
             <View style={styles.hotDeals}>
@@ -64,7 +82,7 @@ const HomeScreen = ({navigation}) => {
             {/* ByConcern */}
             <View style={styles.byConcern}>
               <Text style={styles.byConcernTitle}>By Concern</Text>
-              <ByConcern navigation={navigation} />
+              <ByConcern byConcern={byConcern} navigation={navigation} />
             </View>
           </ScrollView>
         </View>
