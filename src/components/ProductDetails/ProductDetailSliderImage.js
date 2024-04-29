@@ -7,10 +7,15 @@ const screenWidth = Dimensions.get('window').width;
 const ProductDetailSliderImage = ({item}) => {
   return (
     <View style={styles.productDetailSliderCard}>
-      <Image
-        source={{uri: `${item.image}`}}
-        style={styles.productDetailSliderImage}
-      />
+      {
+        item.image?(
+          <Image source={{uri: `${item.image}`}} style={styles.productDetailSliderImage}/>
+        ):
+          (
+            <Image source={require('../../assets/icon/no-photo.png')} style={styles.productDetailSliderImage}/>
+          )
+      }
+    
       {item.app_discount > 0 ? (
         <Text style={styles.productDetailDiscount}>
           {item.app_discount} % off

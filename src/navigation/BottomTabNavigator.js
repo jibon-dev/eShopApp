@@ -102,7 +102,14 @@ const BottomTabNavigator = () => {
         component={GiveawayStackNavigator}
       />
       <Tab.Screen name={screens.CallStack} component={CallStackNavigator} />
-      <Tab.Screen name={screens.CartStack} component={CartStackNavigator} />
+      <Tab.Screen name={screens.CartStack} 
+        component={CartStackNavigator}
+        options={{
+          tabBarBadge: 0,
+          tabBarBadgeStyle: {backgroundColor: '#E04F54'},
+          unmountOnBlur: true,
+      }}
+      />
 
       <Tab.Screen name={screens.AboutStack} component={AboutStackNavigator} />
       <Tab.Screen
