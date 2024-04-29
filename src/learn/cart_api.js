@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
@@ -8,7 +7,6 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import Cart from '../components/Cart/Cart';
 import Loader from '../components/Loader/loader';
@@ -16,11 +14,10 @@ import EmptyCart from '../components/Cart/EmptyCart';
 import { BASE_URL } from '../api/api';
 
 
-const CartScreen = ({ navigation }) => {
+const CartScreen = ({navigation}) => {
+
   const [cartData, setCartData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
-
 
   useEffect(() => {
     fetchCartData();
@@ -37,83 +34,8 @@ const CartScreen = ({ navigation }) => {
     }
   };
 
-  const handleIncreaseQuantity = async (productId) => {
-    try {
-      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id: productId,
-          increase: true,
-        }),
-      });
-      if (response.ok) {
-        // Quantity increased successfully
-        Alert.alert('Quantity Increased', 'Quantity has been increased successfully.');
-        fetchCartData()
-      } else {
-        // Handle unsuccessful response
-        Alert.alert('Error', 'Failed to increase quantity. Please try again later.');
-      }
-    } catch (error) {
-      // Handle error
-      console.error('Error increasing quantity:', error);
-      Alert.alert('Error', 'An error occurred while increasing quantity. Please try again later.');
-    }
-  };
-
-  const handleDecreaseQuantity = async (productId) => {
-    try {
-      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id: productId,
-          decrease: true,
-        }),
-      });
-      if (response.ok) {
-        // Quantity decreased successfully
-        Alert.alert('Quantity Decreased', 'Quantity has been decreased successfully.');
-        fetchCartData(); // Optionally, you can refresh the cart data here
-      } else {
-        // Handle unsuccessful response
-        Alert.alert('Error', 'Failed to decrease quantity. Please try again later.');
-      }
-    } catch (error) {
-      // Handle error
-      console.error('Error decreasing quantity:', error);
-      Alert.alert('Error', 'An error occurred while decreasing quantity. Please try again later.');
-    }
-  };
+  console.log("cartData :", cartData)
   
- 
- 
-  const removeItem = async (itemId) => {
-    try {
-      const response = await fetch(`${BASE_URL}/carts/api/cart-remove/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          item_id: itemId,
-        }),
-      });
-      const responseData = await response.json();
-      if (responseData.detail === "Item removed successfully") {
-        fetchCartData();
-      }
-    } catch (error) {
-      console.error('Error removing item:', error);
-    }
-  };
-
-
   return (
     <SafeAreaView style={styles.safeArea}>
       {loading ? (
@@ -124,13 +46,7 @@ const CartScreen = ({ navigation }) => {
               {cartData.exist ? (
                 <View style={styles.container}>
                   <ScrollView>
-                    <Cart 
-                    cartData={cartData}
-                    removeItem={removeItem}
-                    handleIncreaseQuantity={handleIncreaseQuantity}
-                    handleDecreaseQuantity={handleDecreaseQuantity}
-                    
-                    />
+                    <Cart cartData={cartData} />
                   </ScrollView>
       
                   {/* Total Amount ===================*/}
@@ -162,8 +78,6 @@ const CartScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -226,5 +140,30 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default CartScreen;
 
+
+
+// const updateQuantity = async (productId, newQuantity) => {
+//   try {
+//     const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({
+//         product_id: productId,
+//         quantity: newQuantity,
+//       }),
+//     });
+//     const responseData = await response.json();
+//     if (response.ok) {
+//       fetchCartData(); // Update cart data after quantity update
+//     } else {
+//       console.error('Error updating quantity:', responseData);
+//     }
+//   } catch (error) {
+//     console.error('Error updating quantity:', error);
+//   }
+// };

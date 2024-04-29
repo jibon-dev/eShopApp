@@ -8,58 +8,73 @@ import {
   Alert,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { BASE_URL } from '../../api/api';
 
-const Cart = () => {
+const Cart = ({ cartData, removeItem, handleIncreaseQuantity, handleDecreaseQuantity}) => {
+
   return (
-    <View style={styles.mainContent}>
-      <View style={styles.cartImageWrap}>
-        <Image
-          source={require('../../assets/icon/no-photo.png')}
-          resizeMode={'contain'}
-          style={styles.cartImage}
-        />
-      </View>
-      <View style={styles.cartContent}>
-        <Text style={styles.cartTitle}>jibon Ahmed</Text>
-        <View style={styles.cartQuantity}>
-          <View style={styles.cartQuantityPrice}>
-            <Text style={styles.cartPrice}>৳ : 599</Text>
-          </View>
-          <View style={styles.addRemoveQuantity}>
-            <View style={styles.removeIconWrap}>
-              <View style={styles.removeIcon}>
-                <TouchableOpacity>
-                  <FontAwesome
-                    name="trash"
-                    size={20}
-                    style={{color: '#757070'}}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.plusMinusContent}>
-                {/*Plus Button*/}
-                <View>
-                  <TouchableOpacity>
-                    <Text style={styles.plusButtonDis}>-</Text>
-                  </TouchableOpacity>
+    <View>
+      {cartData.entries.map((entry, index) => (
+        <View key={index}>
+          <View style={styles.mainContent}>
+            <View style={styles.cartImageWrap}>
+              {
+                entry.image ? (
+                  <Image
+                    source={{ uri: entry.image }}
+                    resizeMode={'contain'}
+                    style={styles.cartImage} />
+                ) : (
+                    <Image
+                      source={require('../../assets/icon/no-photo.png')}
+                      resizeMode={'contain'}
+                      style={styles.cartImage}
+                    />
+                  )
+              }
+            </View>
+            <View style={styles.cartContent}>
+              <Text style={styles.cartTitle}>{entry?.title}</Text>
+              <View style={styles.cartQuantity}>
+                <View style={styles.cartQuantityPrice}>
+                  <Text style={styles.cartPrice}>৳ : {entry?.price} x {entry?.quantity} = {entry?.total}</Text>
                 </View>
-                {/*Quantity*/}
-                <Text style={styles.quantityButton}>2</Text>
-                <View>
-                  <TouchableOpacity>
-                    <Text style={styles.minusButtonDis}>+</Text>
-                  </TouchableOpacity>
+                <View style={styles.addRemoveQuantity}>
+                  <View style={styles.removeIconWrap}>
+                    <View style={styles.removeIcon}>
+                      <TouchableOpacity onPress={() => removeItem(entry?.id)}>
+                        <FontAwesome
+                          name="trash"
+                          size={20}
+                          style={{ color: '#757070' }}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.plusMinusContent}>
+                      {/* Decrease Button */}
+                      <TouchableOpacity onPress={()=>handleDecreaseQuantity(entry?.id)}>
+                        <Text style={styles.plusButtonDis}>-</Text>
+                      </TouchableOpacity>
+                      {/* Quantity */}
+                      <Text style={styles.quantityButton}>{entry?.quantity}</Text>
+                      {/* Increase Button */}
+                      <TouchableOpacity onPress={()=>handleIncreaseQuantity(entry?.id)}>
+                        <Text style={styles.minusButtonDis}>+</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
+      ))}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+
   mainContent: {
     flex: 1,
     flexDirection: 'row',

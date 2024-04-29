@@ -26,6 +26,7 @@ import ProductDetailSliderImage from '../components/ProductDetails/ProductDetail
 import Loader from '../components/Loader/loader';
 import {getProduct} from '../api/Products/products';
 import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
+import { BASE_URL } from '../api/api';
 
 const ProductDetailScreen = ({navigation, route}) => {
   const [productData, setProductData] = useState({});
@@ -113,6 +114,43 @@ const ProductDetailScreen = ({navigation, route}) => {
     );
   }, []);
 
+
+  const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+
+  const addToCart = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productData?.id,
+          quantity: quantity
+        }),
+      });
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+
   return (
     <SafeAreaView style={styles.productDetailContainer}>
       {loader ? (
@@ -122,7 +160,7 @@ const ProductDetailScreen = ({navigation, route}) => {
           <ScrollView>
             <View style={styles.productDetailContent}>
               <Text style={styles.productDetailMainTitle}>
-                {productData?.title}
+                {productData?.title} {productData?.id}
               </Text>
               <View>
                 <FlatList
@@ -153,7 +191,7 @@ const ProductDetailScreen = ({navigation, route}) => {
                     {productData.active && (
                       <View style={{flexDirection: 'row'}}>
                         <View>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={decreaseQuantity}>
                             <Text style={styles.plusButton}>
                               -
                             </Text>
@@ -161,11 +199,11 @@ const ProductDetailScreen = ({navigation, route}) => {
                         </View>
                         <TouchableOpacity>
                           <Text style={styles.quantityButton}>
-                            1
+                            {quantity}
                           </Text>
                         </TouchableOpacity>
                         <View>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={increaseQuantity}>
                             <Text style={styles.minusButton}>
                               +
                             </Text>
@@ -190,7 +228,7 @@ const ProductDetailScreen = ({navigation, route}) => {
                 </View>
                 <View style={{width: '30%'}}>
                   {productData.active ? (
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={addToCart} disabled={loading}>
                       <Text style={styles.addToCartButton}>Buy Now</Text>
                     </TouchableOpacity>
                   ) : (
