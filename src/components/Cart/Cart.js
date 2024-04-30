@@ -52,13 +52,13 @@ const Cart = ({ cartData, removeItem, handleIncreaseQuantity, handleDecreaseQuan
                     </View>
                     <View style={styles.plusMinusContent}>
                       {/* Decrease Button */}
-                      <TouchableOpacity onPress={()=>handleDecreaseQuantity(entry?.id)}>
+                      <TouchableOpacity onPress={()=>handleDecreaseQuantity(entry?.product_id)}>
                         <Text style={styles.plusButtonDis}>-</Text>
                       </TouchableOpacity>
                       {/* Quantity */}
                       <Text style={styles.quantityButton}>{entry?.quantity}</Text>
                       {/* Increase Button */}
-                      <TouchableOpacity onPress={()=>handleIncreaseQuantity(entry?.id)}>
+                      <TouchableOpacity onPress={()=>handleIncreaseQuantity(entry?.product_id)}>
                         <Text style={styles.minusButtonDis}>+</Text>
                       </TouchableOpacity>
                     </View>

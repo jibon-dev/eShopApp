@@ -21,6 +21,8 @@ const CartScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
+  console.log("CartData ============================ :", cartData)
+
 
   useEffect(() => {
     fetchCartData();
@@ -63,6 +65,7 @@ const CartScreen = ({ navigation }) => {
       Alert.alert('Error', 'An error occurred while increasing quantity. Please try again later.');
     }
   };
+
 
   const handleDecreaseQuantity = async (productId) => {
     try {

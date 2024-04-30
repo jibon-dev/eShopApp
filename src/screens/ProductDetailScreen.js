@@ -119,6 +119,7 @@ const ProductDetailScreen = ({navigation, route}) => {
   const [quantity, setQuantity] = useState(1);
 
   const addToCart = async () => {
+    console.log("productData ===============> :", productData)
     setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -133,24 +134,38 @@ const ProductDetailScreen = ({navigation, route}) => {
       });
       const responseData = await response.json();
       console.log(responseData);
+      // Display alert based on response
+      if (responseData.msg) {
+        if(productData?.limit_buy){
+          infoAlert('Title', `You can't add more than one ${productData?.title}.`);
+        }
+        else{
+          infoAlert('Title', `${productData?.title} added to cart successfully.`);
+        }
+        
+      }
     } catch (error) {
       console.error('Error adding to cart:', error);
     } finally {
       setLoading(false);
     }
   };
-
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+  
+  
+  const infoAlert = (title, message) => {
+    Alert.alert('', message, [
+      {
+        text: 'Cancel',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: 'Ok',
+        onPress: () => null,
+      },
+    ]);
   };
-
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-
+  
   return (
     <SafeAreaView style={styles.productDetailContainer}>
       {loader ? (
@@ -191,7 +206,7 @@ const ProductDetailScreen = ({navigation, route}) => {
                     {productData.active && (
                       <View style={{flexDirection: 'row'}}>
                         <View>
-                          <TouchableOpacity onPress={decreaseQuantity}>
+                          <TouchableOpacity>
                             <Text style={styles.plusButton}>
                               -
                             </Text>
@@ -203,7 +218,7 @@ const ProductDetailScreen = ({navigation, route}) => {
                           </Text>
                         </TouchableOpacity>
                         <View>
-                          <TouchableOpacity onPress={increaseQuantity}>
+                          <TouchableOpacity>
                             <Text style={styles.minusButton}>
                               +
                             </Text>
