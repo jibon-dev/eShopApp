@@ -128,7 +128,6 @@ const CartScreen = ({ navigation }) => {
   };
   
 
-
   return (
     <SafeAreaView style={styles.safeArea}>
       {loading ? (

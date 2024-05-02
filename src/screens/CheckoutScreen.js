@@ -1,165 +1,464 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import { BASE_URL, bela } from '../api/api';
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  ScrollView,
-  ActivityIndicator,
+    View,
+    KeyboardAvoidingView,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView,
+    TouchableOpacity,
+    Platform,
 } from 'react-native';
-// import axios from 'axios';
-import { BASE_URL } from '../api/api';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
-const CheckoutScreen = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    contact_number: '',
-    address: '',
-    location: '',
-    city: '',
-    notes: '',
-  });
+// import CheckoutForm from './CheckoutForm';
 
-  const handleInputChange = (key, value) => {
-    setFormData({
-      ...formData,
-      [key]: value,
-    });
-  };
+const Checkout = ({navigation}) => {
+  const [cartData, setCartData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [deliveryCharge, setDeliveryCharge] = useState('');
+  const [deliveryMethod, setDeliveryMethod] = useState('');
+  const [location, setLocation] = useState('');
 
-  const handleCheckout = async () => {
-    setLoading(true);
-    try {
-      // Make a POST request to your Django backend's checkout endpoint
-      const response = await fetch(`${BASE_URL}/invoices/api/checkout-api/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          delivery_charge: 60,
-          delivery_method: 1,
-          total: '100',
-          platform: 'Mobile',
-        }),
-      });
-      if (!response.ok) {
-        // Handle non-successful response
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const responseData = await response.json();
-      // Handle successful response
-      console.log(responseData);
-      // Navigate to the next screen, e.g., the invoice screen
-      navigation.navigate('InvoiceStack');
-    } catch (error) {
-      // Handle errors
-      console.error('Error during checkout:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
   
 
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 20, marginBottom: 20 }}>Checkout Screen</Text>
-          {/* Checkout form */}
-          <TextInput
-            style={styles.input}
-            placeholder="First Name"
-            value={formData.first_name}
-            onChangeText={(text) => handleInputChange('first_name', text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Last Name"
-            value={formData.last_name}
-            onChangeText={(text) => handleInputChange('last_name', text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={formData.email}
-            onChangeText={(text) => handleInputChange('email', text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Contact Number"
-            value={formData.contact_number}
-            onChangeText={(text) => handleInputChange('contact_number', text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Address"
-            value={formData.address}
-            onChangeText={(text) => handleInputChange('address', text)}
-          />
-          
-          <TextInput
-            style={styles.input}
-            placeholder="Location"
-            value={formData.location}
-            onChangeText={(text) => handleInputChange('location', text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="City"
-            value={formData.city}
-            onChangeText={(text) => handleInputChange('city', text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Notes (Optional)"
-            value={formData.notes}
-            onChangeText={(text) => handleInputChange('notes', text)}
-          />
-          {/* Checkout button */}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleCheckout}
-            // onPress={() => navigation.navigate('InvoiceStack')}
-            disabled={loading}>
-            <Text style={styles.buttonText}>{loading ? 'Processing...' : 'Checkout'}</Text>
-          </TouchableOpacity>
-          {/* Loading indicator */}
-          {loading && <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 20 }} />}
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  );
+    useEffect(() => {
+        fetchCartData();
+    }, []);
+
+    const fetchCartData = async () => {
+        try {
+        const response = await fetch(`${BASE_URL}/carts/api/cart-list`);
+        const responseData = await response.json();
+        setCartData(responseData.cart);
+        setLoading(false);
+        } catch (error) {
+            console.log("Error=========:", error)
+        }
+    };
+
+
+
+    return (
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <ScrollView keyboardShouldPersistTaps={'handled'}>
+                    <View style={styles.checkoutProcess}>
+                        {/*Your cart Section */}
+                        <View style={styles.yourCartSection}>
+                            {/*CartItem*/}
+                            <View style={styles.checkoutCartItem}>
+                                <View style={styles.yourCart}>
+                                    <Text style={styles.yourCartTitle}>Your Cart </Text>
+                                </View>
+                                <View style={styles.items}>
+                                    <Text style={styles.totalItems}>{cartData?.items_count} items</Text>
+                                </View>
+                            </View>
+                            {/*Product Cost*/}
+                            <View style={styles.checkoutProductCost}>
+                                <View style={styles.productCost}>
+                                    <Text style={styles.productCostTitle}>Product Cost </Text>
+                                </View>
+                                <View style={styles.productPrice}>
+                                    <Text style={styles.productPriceTitle}>
+                                        ৳ {cartData?.total_cost}
+                                    </Text>
+                                </View>
+                            </View>
+                            {/*Delivery Charge Expected*/}
+                            <View style={styles.deliveryChargeContent}>
+                                <View style={styles.deliveryCharge}>
+                                    <Text style={styles.deliveryChargeTitle}>
+                                        Delivery Charge
+                                    </Text>
+                                </View>
+                                <View style={styles.deliveryPrice}>
+                                    {
+                                        deliveryCharge ?
+                                            <Text style={styles.deliveryPriceTitle}>
+                                                ৳ {deliveryCharge || '00'}
+                                            </Text>
+                                            :
+                                            <Text style={styles.deliveryPriceTitle}>
+                                                ৳ 00
+                                            </Text>
+                                    }
+                                </View>
+                            </View>
+                            {/*Total Cost*/}
+                            <View style={styles.totalCostContent}>
+                                <View style={styles.totalCost}>
+                                    <Text style={styles.totalCostTitle}>Total Cost </Text>
+                                </View>
+                                <View style={styles.totalPrice}>
+                                    <Text style={styles.totalPriceTitle}>
+                                        ৳ {cartData?.total_cost} + Delivery Charge
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+                        <Text style={styles.deliveryMethodTitle}>Select Delivery Area</Text>
+                        {/* <View style={{flexDirection: 'row', marginBottom: 10}}>
+                            <View style={{flex: 1, margin: 4}}>
+                                <TouchableOpacity onPress={() => handleDeliveryCharge('INSIDE_DHAKA')}>
+                                    <View
+                                        style={location === 'INSIDE_DHAKA' ? styles.insideDhakaButton : styles.outSideDhakaButton}>
+                                        <View style={{flexDirection: 'row'}}>
+                                            <View style={{flex: 1}}>
+                                                <Text>
+                                                    {location === 'INSIDE_DHAKA' ? (
+                                                            <FontAwesome name="check-circle-o" size={20} color="green"/>
+                                                        ) :
+                                                        (
+                                                            ' '
+                                                        )}
+                                                </Text>
+                                            </View>
+                                            <View style={{flex: 4}}>
+                                                <Text>Inside Dhaka</Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={{flex: 1, margin: 4}}>
+                                <TouchableOpacity onPress={() => handleDeliveryCharge('OUTSIDE_DHAKA')}>
+                                    <View
+                                        style={location === 'OUTSIDE_DHAKA' ? styles.insideDhakaButton : styles.outSideDhakaButton}>
+                                        <View style={{flexDirection: 'row'}}>
+                                            <View style={{flex: 1}}>
+                                                <Text>
+                                                    {location === 'OUTSIDE_DHAKA' ? (
+                                                        <FontAwesome
+                                                            name="check-circle-o"
+                                                            size={20}
+                                                            color="green"
+                                                        />
+                                                    ) : (
+                                                        ' '
+                                                    )}
+                                                </Text>
+                                            </View>
+                                            <View style={{flex: 4}}>
+                                                <Text>Outside Dhaka</Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        </View> */}
+                        {/*Address*/}
+                        <View style={styles.addressForm}>
+                            <Text
+                                style={{
+                                    textAlign: 'center',
+                                    fontWeight: 'bold',
+                                    fontSize: 20,
+                                    marginBottom: 10,
+                                    marginTop: 5,
+                                }}
+                            >
+                                Add Address
+                            </Text>
+                            {/*from CheckoutForm*/}
+                            {/* <CheckoutForm
+                                navigation={navigation}
+                                deliveryCharge={deliveryCharge}
+                                deliveryMethod={deliveryMethod}
+                            /> */}
+                        </View>
+                        <View style={styles.checkoutMargin}/>
+                    </View>
+                </ScrollView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+    );
 };
 
-const styles = {
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    width: '80%',
-  },
-  button: {
-    backgroundColor: '#007bff',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    width: '80%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-};
 
-export default CheckoutScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        ...Platform.select({
+            ios: {
+                marginBottom: 0,
+            },
+            android: {
+                marginBottom: 0,
+            },
+        }),
+    },
+
+    checkoutProcess: {
+        flex: 1,
+        margin: 5,
+        marginTop: 15,
+    },
+    yourCartSection: {
+        overflow: 'hidden',
+        marginBottom: 10,
+    },
+    checkoutProcessTitle: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 20,
+        paddingBottom: 20,
+    },
+    checkoutCartItem: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    yourCart: {
+        flex: 4,
+    },
+    yourCartTitle: {
+        fontWeight: 'bold',
+        marginLeft: 4,
+        fontSize: 14,
+        padding: 3,
+    },
+    items: {
+        flex: 1,
+        marginRight: 5,
+    },
+    totalItems: {
+        textAlign: 'center',
+        backgroundColor: '#6C757D',
+        borderRadius: 7,
+        padding: 3,
+        fontWeight: 'bold',
+        color: '#FFF',
+        fontSize: 14,
+        overflow: 'hidden',
+    },
+    checkoutProductCost: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 8,
+    },
+    productCost: {
+        flex: 1,
+        marginRight: 5,
+    },
+    productCostTitle: {
+        fontWeight: 'bold',
+        marginLeft: 4,
+        fontSize: 14,
+    },
+    productPrice: {
+        flex: 1,
+        marginRight: 5,
+    },
+    productPriceTitle: {
+        fontWeight: 'bold',
+        marginLeft: 4,
+        fontSize: 14,
+        textAlign: 'right',
+    },
+    deliveryChargeContent: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 10,
+    },
+    deliveryCharge: {
+        flex: 1,
+        marginRight: 5,
+    },
+    deliveryChargeTitle: {
+        fontWeight: 'bold',
+        marginLeft: 4,
+        fontSize: 14,
+    },
+    deliveryPrice: {
+        flex: 1,
+        marginRight: 5,
+    },
+    deliveryPriceTitle: {
+        fontWeight: 'bold',
+        marginLeft: 4,
+        fontSize: 14,
+        textAlign: 'right',
+    },
+    totalCostContent: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 10,
+        marginLeft: 1,
+        marginRight: 1,
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderRadius: 5,
+        backgroundColor: '#183153',
+        color: '#FFF',
+        overflow:"hidden"
+    },
+    totalCost: {
+        flex: 1,
+        marginLeft: 3,
+    },
+    totalCostTitle: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#FFF',
+        marginLeft: 3,
+    },
+    totalPrice: {
+        flex: 1,
+    },
+    totalPriceTitle: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        textAlign: 'right',
+        color: '#FFF',
+        marginRight: 5,
+    },
+
+    deliveryMethodButton: {
+        flexDirection: 'row',
+        marginBottom: 10,
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    // deliveryMethod
+    deliveryMethod: {
+        overflow: 'hidden',
+    },
+    deliveryMethodTitle: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20,
+        marginBottom: 10,
+    },
+    deliveryMethodContent: {
+        flexDirection: 'row',
+    },
+    deliveryOption: {
+        flex: 1,
+        borderBottomColor: 'black',
+        borderRightWidth: 1,
+    },
+    insideDhakaTitle: {
+        marginBottom: 10,
+        fontSize: 14,
+    },
+    outsideDhakaTitle: {
+        marginBottom: 10,
+        fontSize: 14,
+    },
+    deliveryChargeMl: {
+        flex: 2,
+    },
+    deliveryChargeMlTitle: {
+        fontWeight: 'bold',
+        marginLeft: 10,
+        fontSize: 14,
+        marginBottom: 10,
+    },
+    deliveryChargeMlContent: {
+        marginLeft: 15,
+    },
+    deliveryChargeMessage: {
+        marginTop: 8,
+    },
+    insideDhakaMessage: {
+        textAlign: 'justify',
+    },
+    outSideDhakaMessage: {
+        textAlign: 'justify',
+    },
+
+    // Address Form
+    addressForm: {
+        flex: 1,
+    },
+
+    checkoutAddressForm: {
+        height: 40,
+        marginLeft: 2,
+        marginRight: 3,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 5,
+        overflow: "hidden",
+        borderColor: '#D9D9D9',
+        marginBottom: 10,
+    },
+    checkoutAddressNoteForm: {
+        height: 60,
+        marginLeft: 2,
+        marginRight: 3,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 5,
+        overflow: "hidden",
+        borderColor: '#D9D9D9',
+        marginBottom: 10,
+    },
+    placeAnOrder: {
+        padding: 7,
+        backgroundColor: '#183153',
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 8,
+        fontWeight: 'bold',
+        borderColor: '#183153',
+        color: '#FFF',
+        marginBottom: 10,
+        overflow:"hidden"
+    },
+
+    deliveryMethodCard: {
+        borderRadius: 6,
+        overflow: "hidden",
+        elevation: 3,
+        backgroundColor: '#FFF',
+        shadowOffset: {
+            width: 1,
+            height: 1,
+        },
+        shadowColor: '#333',
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        padding: 7,
+    },
+
+    insideDhakaButton: {
+        padding: 5,
+        backgroundColor: '#F9C65D',
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 8,
+        overflow: "hidden",
+        fontWeight: 'bold',
+        borderColor: '#F9C65D',
+        color: 'black',
+    },
+    outSideDhakaButton: {
+        padding: 5,
+        backgroundColor: '#ccccca',
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 8,
+        overflow: "hidden",
+        fontWeight: 'bold',
+        borderColor: '#ccccca',
+        color: 'black',
+    },
+    checkoutMargin: {
+        ...Platform.select({
+            ios: {
+                marginBottom: 50,
+            },
+            android: {
+                marginBottom: 0,
+            },
+        }),
+    },
+
+});
+export default Checkout;
