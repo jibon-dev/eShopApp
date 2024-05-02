@@ -33,6 +33,9 @@ const ProductDetailScreen = ({navigation, route}) => {
   const [hotDeals, setHotDeals] = useState([]);
   const [productCounter, setProductCounter] = useState(1);
   const [loader, setLoader] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+
   const {product} = route.params;
 
   useEffect(() => {
@@ -115,12 +118,8 @@ const ProductDetailScreen = ({navigation, route}) => {
   }, []);
 
 
-  const [loading, setLoading] = useState(false);
-  const [quantity, setQuantity] = useState(1);
 
   const addToCart = async () => {
-    console.log("productData ===============> :", productData)
-    setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
         method: 'POST',
@@ -133,25 +132,25 @@ const ProductDetailScreen = ({navigation, route}) => {
         }),
       });
       const responseData = await response.json();
-      console.log(responseData);
-      // Display alert based on response
-      if (responseData.msg) {
-        if(productData?.limit_buy){
-          infoAlert('Title', `You can't add more than one ${productData?.title}.`);
-        }
-        else{
-          infoAlert('Title', `${productData?.title} added to cart successfully.`);
-        }
-        
+
+      // Check if response contains status false
+      if (responseData.status === false) {
+        // Display alert with the message from the response
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        // Display success alert
+        infoAlert('Title', `${productData?.title} added to cart successfully.`);
       }
     } catch (error) {
-      console.error('Error adding to cart:', error);
-    } finally {
-      setLoading(false);
+      infoAlert('Error adding to cart:', error);
+    } 
+    finally {
+      setLoader(false);
     }
   };
   
-  
+
   const infoAlert = (title, message) => {
     Alert.alert('', message, [
       {
@@ -165,6 +164,7 @@ const ProductDetailScreen = ({navigation, route}) => {
       },
     ]);
   };
+
   
   return (
     <SafeAreaView style={styles.productDetailContainer}>
