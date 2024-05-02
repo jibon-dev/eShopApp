@@ -5,12 +5,10 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Alert,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { BASE_URL } from '../../api/api';
 
-const Cart = ({ cartData, removeItem, handleIncreaseQuantity, handleDecreaseQuantity}) => {
+const Cart = ({ cartData, handleIncreaseQuantity, handleDecreaseQuantity, infoAlert}) => {
 
   return (
     <View>
@@ -42,13 +40,14 @@ const Cart = ({ cartData, removeItem, handleIncreaseQuantity, handleDecreaseQuan
                 <View style={styles.addRemoveQuantity}>
                   <View style={styles.removeIconWrap}>
                     <View style={styles.removeIcon}>
-                      <TouchableOpacity onPress={() => removeItem(entry?.id)}>
-                        <FontAwesome
-                          name="trash"
-                          size={20}
-                          style={{ color: '#757070' }}
-                        />
-                      </TouchableOpacity>
+                    <TouchableOpacity onPress={() => infoAlert('Confirm', 'Are you sure you want to remove this item?', entry?.id)}>
+                      <FontAwesome
+                        name="trash"
+                        size={20}
+                        style={{ color: '#757070' }}
+                      />
+                    </TouchableOpacity>
+
                     </View>
                     <View style={styles.plusMinusContent}>
                       {/* Decrease Button */}
