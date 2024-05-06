@@ -1,7 +1,5 @@
-
 import React, {
   useState,
-  useContext,
   useEffect,
   useCallback,
   useRef,
@@ -27,6 +25,7 @@ import Loader from '../components/Loader/loader';
 import {getProduct} from '../api/Products/products';
 import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
 import { BASE_URL } from '../api/api';
+import { isDomElement } from 'react-native-render-html';
 
 const ProductDetailScreen = ({navigation, route}) => {
   const [productData, setProductData] = useState({});
@@ -117,8 +116,8 @@ const ProductDetailScreen = ({navigation, route}) => {
     );
   }, []);
 
-
-
+ 
+  // Add to cart =======================================================
   const addToCart = async () => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -128,14 +127,11 @@ const ProductDetailScreen = ({navigation, route}) => {
         },
         body: JSON.stringify({
           product_id: productData?.id,
-          quantity: quantity
+          quantity: quantity,
         }),
       });
       const responseData = await response.json();
-
-      // Check if response contains status false
       if (responseData.status === false) {
-        // Display alert with the message from the response
         infoAlert('Error', responseData.msg)
       } 
       else {
@@ -149,8 +145,69 @@ const ProductDetailScreen = ({navigation, route}) => {
       setLoader(false);
     }
   };
-  
 
+
+  const handleIncreaseQuantity = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productData?.id,
+          quantity: quantity,
+          increase: true,
+        }),
+      });
+      const responseData = await response.json();
+      if (responseData.status === false) {
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');
+      }
+    } catch (error) {
+      infoAlert('Error adding to cart:', error);
+    } 
+    finally {
+      setLoader(false);
+    }
+  };
+
+
+  const handleDecreaseQuantity = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productData?.id,
+          quantity: quantity,
+          decrease: true,
+        }),
+      });
+      const responseData = await response.json();
+      if (responseData.status === false) {
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        // Display success alert
+        // setQuantity(responseData.quantity);
+        infoAlert('Quantity Decreased', 'Quantity has been decreased successfully.');
+      }
+    } catch (error) {
+      infoAlert('Error adding to cart:', error);
+    } 
+    finally {
+      setLoader(false);
+    }
+  };
+
+  
+  // Message ===========================================================
   const infoAlert = (title, message) => {
     Alert.alert('', message, [
       {
@@ -206,7 +263,7 @@ const ProductDetailScreen = ({navigation, route}) => {
                     {productData.active && (
                       <View style={{flexDirection: 'row'}}>
                         <View>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={handleDecreaseQuantity}>
                             <Text style={styles.plusButton}>
                               -
                             </Text>
@@ -218,7 +275,7 @@ const ProductDetailScreen = ({navigation, route}) => {
                           </Text>
                         </TouchableOpacity>
                         <View>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={handleIncreaseQuantity}>
                             <Text style={styles.minusButton}>
                               +
                             </Text>
