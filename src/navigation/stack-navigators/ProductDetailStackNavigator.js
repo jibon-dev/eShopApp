@@ -6,7 +6,11 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import ProductDetail from '../../screens/ProductDetailScreen';
+// import ProductDetail from '../../screens/ProductDetailScreen';
+// import ProductDetailScreen form '../../screen/ProductDetailScreen';
+
+import ProductDetailScreen from '../../screens/ProductDetailScreen'
+
 
 const Stack = createStackNavigator();
 
@@ -54,8 +58,8 @@ const ProductDetailStackNavigator = () => {
         ),
       })}>
       <Stack.Screen
-        name="ProductDetails"
-        component={ProductDetail}
+        name="ProductDetail"
+        component={ProductDetailScreen}
         options={{
           title: 'Product Details',
           headerTitleAlign: 'left',

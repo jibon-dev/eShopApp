@@ -17,9 +17,9 @@ const ProductList = ({productList, navigation, loading}) => {
           <View style={styles.productCard} key={index}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ProductDetail', {
-                  // screen: 'ProductDetail',
-                  product: product,
+                navigation.navigate('ProductDetailStack', {
+                  screen: 'ProductDetail',
+                  params: { product: product },
                 })
               }>
               <View>
