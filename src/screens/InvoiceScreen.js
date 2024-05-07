@@ -26,7 +26,7 @@ const InvoiceScreen = ({route, navigation}) => {
     <SafeAreaView style={styles.safeArea}>
       {loading ? (
         <View style={styles.container}>
-          <ActivityIndicator size="large" color="#551E18" />
+          <ActivityIndicator size="large" color="#183153'" />
         </View>
       ) : (
         <Invoice invoiceData={invoiceData} navigation={navigation} />

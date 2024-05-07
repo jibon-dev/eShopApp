@@ -17,9 +17,9 @@ const CallStackNavigator = () => {
     <Stack.Navigator
       screenOptions={({navigation}) => ({
         headerShown: true,
-        headerTintColor: '#ffffff',
+        headerTintColor: '#FFFFFF',
         headerStyle: {
-          backgroundColor: '#551E18',
+          backgroundColor: '#183153',
           height: 50,
         },
         headerLeft: () => (
@@ -29,7 +29,7 @@ const CallStackNavigator = () => {
             <Ionicons
               name="arrow-back-outline"
               size={25}
-              color="#fff"
+              color="#FFFFFF"
               style={{padding: 5}}
             />
           </TouchableOpacity>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   touchableButton: {
-    backgroundColor: '#551E18',
+    backgroundColor: '#183153',
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 3,

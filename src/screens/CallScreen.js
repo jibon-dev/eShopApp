@@ -16,12 +16,12 @@ const CallScreen = ({navigation}) => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.callIcon}>
-          <Feather name="phone-call" size={100} color="black" />
+          <Feather name="phone-call" size={100} color="#183153" />
         </View>
         <Text
           style={styles.call}
           onPress={() => {
-            Linking.openURL('tel:+880198-7132107');
+            Linking.openURL('tel:+880130-5606540');
           }}>
           Click to Call
         </Text>
@@ -62,13 +62,13 @@ const styles = StyleSheet.create({
   call: {
     marginTop: 10,
     padding: 7,
-    backgroundColor: '#551E18',
+    backgroundColor: '#183153',
     textAlign: 'center',
     borderWidth: 1,
     borderRadius: 8,
     overflow: 'hidden',
     fontWeight: 'bold',
-    borderColor: '#551E18',
+    borderColor: '#183153',
     width: 150,
     color: '#FFF',
   },

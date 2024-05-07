@@ -51,8 +51,8 @@ const CartScreen = ({ navigation }) => {
         }),
       });
       if (response.ok) {
-        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');
         fetchCartData();
+        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');        
       } else {
         const responseData = await response.json();
         infoAlert('Sorry !', responseData.msg);
@@ -77,8 +77,8 @@ const CartScreen = ({ navigation }) => {
         }),
       });
       if (response.ok) {
-        infoAlert('Quantity Decreased', 'Quantity has been decreased successfully.');
         fetchCartData();
+        infoAlert('Quantity Decreased', 'Quantity has been decreased successfully.');
       } else {
         infoAlert('Error:', 'Failed to decrease quantity. Please try again later.');
       }

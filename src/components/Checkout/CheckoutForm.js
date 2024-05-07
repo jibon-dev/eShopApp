@@ -254,6 +254,11 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
   },
+  buttonText:{
+    textAlign:"center",
+    color:"#FFFFFF",
+    fontSize:16
+  }
 });
 
 export default CheckoutForm;

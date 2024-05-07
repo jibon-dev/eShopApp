@@ -16,35 +16,55 @@ import CheckoutForm from './CheckoutForm';
 
 
 const Checkout = ({navigation, cartData}) => {
+    const [loading, setLoading] = useState(true);
+    const [deliveryCharge, setDeliveryCharge] = useState('');
+    const [deliveryMethod, setDeliveryMethod] = useState('');
+    const [location, setLocation] = useState('');
 
-  const [deliveryCharge, setDeliveryCharge] = useState('');
-  const [deliveryMethod, setDeliveryMethod] = useState('');
-  const [location, setLocation] = useState('');
+    const totalItems = parseInt(cartData?.items_count);
+    const totalWeight = parseInt(cartData?.total_weight || 0)
+    const totalCost = parseFloat(cartData?.total_cost || 0);
+    const totalCostWithDeliveryCharge = parseFloat(cartData?.total_cost || 0) + parseFloat(deliveryCharge || 0);
 
-
-  const totalItems = parseInt(cartData?.items_count);
-  const totalWeight = parseInt(cartData?.total_weight || 0)
-  const totalCost = parseFloat(cartData?.total_cost || 0);
-  const totalCostWithDeliveryCharge = parseFloat(cartData?.total_cost || 0) + parseFloat(deliveryCharge || 0);
-
-  const handleDeliveryCharge = async (selectedLocation) => {
-      setLocation(selectedLocation);
-      try {
-        const response = await fetch(`${BASE_URL}/api/delivery-charge/${selectedLocation}/${totalWeight}/`);
-        const responseData = await response.json();
-        if (responseData.status && responseData.result) {
-          setDeliveryCharge(responseData.result.delivery_charge);
-          setDeliveryMethod(responseData.result.delivery_method);
-        } else {
-          setDeliveryCharge('');
-          setDeliveryMethod('');
+    const handleDeliveryCharge = async (selectedLocation) => {
+        setLocation(selectedLocation);
+        try {
+            const response = await fetch(`${BASE_URL}/api/delivery-charge/${selectedLocation}/${totalWeight}/`);
+            const responseData = await response.json();
+            if (responseData.status && responseData.result) {
+            setDeliveryCharge(responseData.result.delivery_charge);
+            setDeliveryMethod(responseData.result.delivery_method);
+            } else {
+            setDeliveryCharge('');
+            setDeliveryMethod('');
+            }
+        } catch (error) {
+            console.log("Error fetching delivery charge: ", error);
+            setDeliveryCharge('');
+            setDeliveryMethod('');
         }
-      } catch (error) {
-        console.log("Error fetching delivery charge: ", error);
-        setDeliveryCharge('');
-        setDeliveryMethod('');
-      }
-  };
+    };
+
+    const [totalQuantity, setTotalQuantity] = useState(0);
+   
+    useEffect(() => {
+        async function sleep() {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+        fetchCartTotalQuantity();
+    }, [totalQuantity]);
+
+    const fetchCartTotalQuantity = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/carts/api/cart-count`);
+            const data = await response.json();
+            setTotalQuantity(data.total_quantity);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching cart data:', error);
+            setLoading(false);
+        }
+    };
   
 
     return (
@@ -60,7 +80,7 @@ const Checkout = ({navigation, cartData}) => {
                                     <Text style={styles.yourCartTitle}>Your Cart </Text>
                                 </View>
                                 <View style={styles.items}>
-                                    <Text style={styles.totalItems}>{totalItems} items</Text>
+                                    <Text style={styles.totalItems}>{totalQuantity} items</Text>
                                 </View>
                             </View>
                             {/*Product Cost*/}

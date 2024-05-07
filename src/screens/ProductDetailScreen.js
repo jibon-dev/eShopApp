@@ -20,8 +20,9 @@ import {
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 import RelatedProduct from '../components/ProductDetails/RelatedProduct';
-import ProductDetailSliderImage from '../components/ProductDetails/ProductDetailSliderImage';
 import Loader from '../components/Loader/loader';
+import ProductDetailSliderImage from '../components/ProductDetails/ProductDetailSliderImage';
+
 import {getProduct} from '../api/Products/products';
 import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
 import { BASE_URL } from '../api/api';
@@ -70,6 +71,7 @@ const ProductDetailScreen = ({navigation, route}) => {
     );
   }
 
+  // Slider image ================================================================
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
   indexRef.current = index;
@@ -116,8 +118,13 @@ const ProductDetailScreen = ({navigation, route}) => {
     );
   }, []);
 
- 
-  // Add to cart =======================================================
+
+  /**====================================================================
+ * Add item to the cart.
+ * @async
+ * @function addToCart
+ * @returns {Promise<void>}
+ ======================================================================*/
   const addToCart = async () => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -146,68 +153,7 @@ const ProductDetailScreen = ({navigation, route}) => {
     }
   };
 
-
-  const handleIncreaseQuantity = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id: productData?.id,
-          quantity: quantity,
-          increase: true,
-        }),
-      });
-      const responseData = await response.json();
-      if (responseData.status === false) {
-        infoAlert('Error', responseData.msg)
-      } 
-      else {
-        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');
-      }
-    } catch (error) {
-      infoAlert('Error adding to cart:', error);
-    } 
-    finally {
-      setLoader(false);
-    }
-  };
-
-
-  const handleDecreaseQuantity = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id: productData?.id,
-          quantity: quantity,
-          decrease: true,
-        }),
-      });
-      const responseData = await response.json();
-      if (responseData.status === false) {
-        infoAlert('Error', responseData.msg)
-      } 
-      else {
-        // Display success alert
-        // setQuantity(responseData.quantity);
-        infoAlert('Quantity Decreased', 'Quantity has been decreased successfully.');
-      }
-    } catch (error) {
-      infoAlert('Error adding to cart:', error);
-    } 
-    finally {
-      setLoader(false);
-    }
-  };
-
-  
-  // Message ===========================================================
+  // Message ============================
   const infoAlert = (title, message) => {
     Alert.alert('', message, [
       {
@@ -251,38 +197,11 @@ const ProductDetailScreen = ({navigation, route}) => {
               </View>
               <View style={{marginBottom: 10}} />
               <View style={{flexDirection: 'row'}}>
-                <View style={{width: '75%', marginBottom: 20}}>
+                <View style={{width: '90%', marginBottom: 5}}>
                   <View style={{flexDirection: 'row'}}>
                     <Text style={styles.productDetailHealthTips}>
                       Health tips : {productData.health_tips}
                     </Text>
-                  </View>
-                </View>
-                <View style={{width: '18%'}}>
-                  <View style={{flex: 1}}>
-                    {productData.active && (
-                      <View style={{flexDirection: 'row'}}>
-                        <View>
-                          <TouchableOpacity onPress={handleDecreaseQuantity}>
-                            <Text style={styles.plusButton}>
-                              -
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity>
-                          <Text style={styles.quantityButton}>
-                            {quantity}
-                          </Text>
-                        </TouchableOpacity>
-                        <View>
-                          <TouchableOpacity onPress={handleIncreaseQuantity}>
-                            <Text style={styles.minusButton}>
-                              +
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    )}
                   </View>
                 </View>
               </View>

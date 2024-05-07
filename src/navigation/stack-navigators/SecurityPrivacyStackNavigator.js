@@ -17,7 +17,7 @@ const SecurityPrivacyStackNavigator = () => {
         headerShown: true,
         headerTintColor: '#ffffff',
         headerStyle: {
-          backgroundColor: '#551E18',
+          backgroundColor: '#183153',
           height: 50,
         },
         // eslint-disable-next-line react/no-unstable-nested-components
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   touchableButton: {
-    backgroundColor: '#551E18',
+    backgroundColor: '#183153',
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 3,

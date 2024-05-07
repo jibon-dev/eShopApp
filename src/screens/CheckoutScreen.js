@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, StyleSheet, Platform} from 'react-native';
 import Checkout from '../components/Checkout/Checkout';
+import Loader from '../components/Loader/loader';
 import { BASE_URL } from '../api/api';
 
 const CheckoutScreen = ({navigation}) => {
@@ -25,13 +26,21 @@ const CheckoutScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Checkout 
-        cartData={cartData} 
-        loading={loading} 
-        navigation={navigation} 
-        />
-      </View>
+      {loading ? (
+            <Loader/>
+          ) : 
+          (
+          <>
+            <View style={styles.container}>
+              <Checkout 
+              cartData={cartData} 
+              loading={loading} 
+              navigation={navigation} 
+              />
+            </View>
+          </>
+          )
+        }
     </SafeAreaView>
   );
 };
