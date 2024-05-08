@@ -28,10 +28,10 @@ import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
 import { BASE_URL } from '../api/api';
 import { isDomElement } from 'react-native-render-html';
 
+
 const ProductDetailScreen = ({navigation, route}) => {
   const [productData, setProductData] = useState({});
   const [hotDeals, setHotDeals] = useState([]);
-  const [productCounter, setProductCounter] = useState(1);
   const [loader, setLoader] = useState(true);
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -119,12 +119,9 @@ const ProductDetailScreen = ({navigation, route}) => {
   }, []);
 
 
-  /**====================================================================
+/**=======================================================
  * Add item to the cart.
- * @async
- * @function addToCart
- * @returns {Promise<void>}
- ======================================================================*/
+ =========================================================*/
   const addToCart = async () => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {

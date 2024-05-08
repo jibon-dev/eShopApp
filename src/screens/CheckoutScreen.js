@@ -15,11 +15,13 @@ const CheckoutScreen = ({navigation}) => {
             const response = await fetch(`${BASE_URL}/carts/api/cart-list`);
             const responseData = await response.json();
             setCartData(responseData.cart);
-        } catch (error) {
+        } 
+        catch (error) {
             console.log("Error fetching cart data:", error);
+            
         }
         setLoading(false);
-        };
+      };
 
         fetchCartData();
     }, []);

@@ -17,27 +17,29 @@ import { BASE_URL } from '../api/api';
 
 
 const CartScreen = ({ navigation }) => {
-  const [cartData, setCartData] = useState(null);
+
+  const [cartItem, setCartItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchCartData();
-  }, []);
+    setTimeout(() => {
+      fetchCartData();
+    }, 3000);
+}, []);
 
-  // Cart Fetch Data ======================================================
+  // Cart Fetch Data ================
   const fetchCartData = async () => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list`);
       const responseData = await response.json();
-      setCartData(responseData.cart);
+      setCartItem(responseData.cart);
       setLoading(false);
     } catch (error) {
       infoAlert('Error fetching cart data:', error);
     }
   };
 
- 
-  // IncreaseQuantity Function =========================================
+  // IncreaseQuantity Function =======================
   const handleIncreaseQuantity = async (productId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -61,9 +63,8 @@ const CartScreen = ({ navigation }) => {
       infoAlert('Quantity Increased', error);
     }
   };
-  
 
-  // Decrease Function =================================================
+  // Decrease Function ===============================
   const handleDecreaseQuantity = async (productId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -87,9 +88,8 @@ const CartScreen = ({ navigation }) => {
       infoAlert('Error decreasing quantity:', error);
     }
   };
-  
- 
-  // RemoveItemFromCart Function =======================================
+
+  // RemoveItemFromCart Function ====================
   const handleRemoveItemFromCart = async (itemId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-remove/`, {
@@ -112,7 +112,7 @@ const CartScreen = ({ navigation }) => {
     }
   };
 
-  // Custom Message =====================================================
+  // Custom Message ============================
   const infoAlert = (title, message, itemId) => {
     Alert.alert(title, message, [
       {
@@ -135,11 +135,11 @@ const CartScreen = ({ navigation }) => {
           ) : 
           (
             <>
-              {cartData.exist ? (
+              {cartItem.exist ? (
                 <View style={styles.container}>
                   <ScrollView>
                     <Cart 
-                    cartData={cartData}
+                    cartItem={cartItem}
                     handleIncreaseQuantity={handleIncreaseQuantity}
                     handleDecreaseQuantity={handleDecreaseQuantity}
                     handleRemoveItemFromCart={handleRemoveItemFromCart}
@@ -153,7 +153,7 @@ const CartScreen = ({ navigation }) => {
                       <Text style={styles.totalAmountTitle}>Total Amount : </Text>
                     </View>
                     <View style={styles.totalAmountRight}>
-                      <Text style={styles.totalAmountPrice}> ৳ {cartData?.total_cost}</Text>
+                      <Text style={styles.totalAmountPrice}> ৳ {cartItem?.total_cost}</Text>
                     </View>
                   </View>
                   {/*Proceed to Order*/}

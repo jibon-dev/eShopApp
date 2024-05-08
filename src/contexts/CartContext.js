@@ -6,21 +6,26 @@ export const CartContext = createContext();
 
 export const CartProvider = (props) => {
 
-    const [itemsCount, setItemsCount] = useState(null);
+    const [totalQuantity, setTotalQuantity] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchCartData();
+        setTimeout(() => {
+            fetchCartTotalQuantity();
+        }, 3000);
     }, []);
+    
 
-    const fetchCartData = async () => {
+    const fetchCartTotalQuantity = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/carts/api/cart-list`);
-            const responseData = await response.json();
-            setItemsCount(responseData.cart.items_count);
+            const response = await fetch(`${BASE_URL}/carts/api/cart-count`);
+            const data = await response.json();
+            setTotalQuantity(data.total_quantity);
             setLoading(false);
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error fetching cart data:', error);
+            setLoading(false);
         }
     };
     
@@ -28,7 +33,7 @@ export const CartProvider = (props) => {
     return (
         <CartContext.Provider
             value={{
-                itemsCount,
+                totalQuantity,
                 loading,
             }}
         >

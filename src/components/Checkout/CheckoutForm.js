@@ -187,6 +187,8 @@ const CheckoutForm = ({navigation, deliveryCharge, deliveryMethod}) => {
           </TouchableOpacity>
           {/* Loading indicator */}
           {loading && <ActivityIndicator size="large" color="#007bff" style={{ marginTop: 20 }} />}
+
+          
           <View style={{marginBottom: 50}} />
         </>
   );

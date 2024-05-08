@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Cart = ({ cartData, handleIncreaseQuantity, handleDecreaseQuantity, infoAlert}) => {
+const Cart = ({ cartItem, handleIncreaseQuantity, handleDecreaseQuantity, infoAlert}) => {
 
   return (
     <View>
-      {cartData.entries.map((entry, index) => (
+      {cartItem.entries.map((entry, index) => (
         <View key={index}>
           <View style={styles.mainContent}>
             <View style={styles.cartImageWrap}>

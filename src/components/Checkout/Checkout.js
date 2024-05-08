@@ -55,6 +55,7 @@ const Checkout = ({navigation, cartData}) => {
     }, [totalQuantity]);
 
     const fetchCartTotalQuantity = async () => {
+        setLoading(true);
         try {
             const response = await fetch(`${BASE_URL}/carts/api/cart-count`);
             const data = await response.json();
@@ -64,6 +65,11 @@ const Checkout = ({navigation, cartData}) => {
             console.error('Error fetching cart data:', error);
             setLoading(false);
         }
+    };
+
+     // Check if delivery method is selected
+     const isDeliveryMethodSelected = () => {
+        return location !== null;
     };
   
 
