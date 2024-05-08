@@ -5,6 +5,7 @@ import BrandScreen from '../../screens/BrandScreen';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Stack = createStackNavigator();
 
@@ -34,10 +35,15 @@ const BrandStackNavigator = () => {
           <View style={styles.headerRight}>
             <View style={styles.headerContent}>
               <Text style={styles.headerSearchIcon}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('SearchStack')}
+              <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('SearchProductStack', {
+                      screen: 'SearchProduct',
+                      params: {search_query: ''},
+                    })
+                  }
                   style={styles.touchableButton}>
-                  <Icon name="search" size={20} color="#fff" />
+                  <FontAwesome name="search" size={20} color="#fff" />
                 </TouchableOpacity>
               </Text>
               <Text style={styles.headerSearchIcon}>

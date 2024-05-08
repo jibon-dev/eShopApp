@@ -38,7 +38,7 @@ const CallStackNavigator = () => {
           <View style={styles.headerRight}>
             <View style={styles.headerContent}>
               <Text style={styles.headerSearchIcon}>
-                <TouchableOpacity
+              <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('SearchProductStack', {
                       screen: 'SearchProduct',

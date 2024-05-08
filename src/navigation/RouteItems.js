@@ -40,8 +40,8 @@ export const screens = {
   OrderConfirmationStack: 'OrderConfirmationStack',
   OrderConfirmation: 'OrderConfirmation',
 
-  SearchStack: 'SearchStack',
-  Search: 'Search',
+  SearchProductStack: 'SearchProductStack',
+  SearchProduct: 'SearchProduct',
 
   ProductListStack: 'ProductListStack',
   ProductList: 'ProductList',
@@ -455,13 +455,20 @@ export const routes = [
     ),
   },
 
-  // SearchStack ============================================================
+  // 9. SearchProduct Category ===================
   {
-    name: screens.SearchStack,
-    focusedRoute: screens.SearchStack,
-    title: 'Search',
+    name: screens.SearchProductStack,
+    focusedRoute: screens.SearchProductStack,
+    title: 'SearchProduct',
     showInTab: false,
     showInDrawer: true,
+  },
+  {
+    name: screens.SearchProduct,
+    focusedRoute: screens.SearchProductStack,
+    title: 'SearchProduct',
+    showInTab: false,
+    showInDrawer: false,
   },
 
   // UserProfileStack =======================================================

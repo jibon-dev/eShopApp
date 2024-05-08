@@ -15,7 +15,7 @@ import CallStackNavigator from './stack-navigators/CallStackNavigator';
 import CartStackNavigator from './stack-navigators/CartStackNavigator';
 import AboutStackNavigator from './stack-navigators/AboutStackNavigator';
 import ContactStackNavigator from './stack-navigators/ContactStackNavigator';
-import SearchStackNavigator from './stack-navigators/SearchStackNavigator';
+import SearchProductStackNavigator from './stack-navigators/SearchProductStackNavigator';
 import UserProfileStackNavigator from './stack-navigators/UserProfileStackNavigator';
 import TrackingMyParcelStackNavigator from './stack-navigators/TrackingMyParcelStackNavigator';
 import PurchaseHistoryStackNavigator from './stack-navigators/PurchaseHistoryStackNavigator';
@@ -122,7 +122,10 @@ const BottomTabNavigator = () => {
         name={screens.ContactStack}
         component={ContactStackNavigator}
       />
-      <Tab.Screen name={screens.SearchStack} component={SearchStackNavigator} />
+      <Tab.Screen
+        name={screens.SearchProductStack}
+        component={SearchProductStackNavigator}
+      />
       <Tab.Screen
         name={screens.UserProfileStack}
         component={UserProfileStackNavigator}
