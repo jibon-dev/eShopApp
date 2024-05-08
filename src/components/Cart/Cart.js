@@ -5,16 +5,14 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Alert,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { BASE_URL } from '../../api/api';
 
-const Cart = ({ cartData, removeItem, handleIncreaseQuantity, handleDecreaseQuantity}) => {
+const Cart = ({ cartItem, handleIncreaseQuantity, handleDecreaseQuantity, infoAlert}) => {
 
   return (
     <View>
-      {cartData.entries.map((entry, index) => (
+      {cartItem.entries.map((entry, index) => (
         <View key={index}>
           <View style={styles.mainContent}>
             <View style={styles.cartImageWrap}>
@@ -42,23 +40,24 @@ const Cart = ({ cartData, removeItem, handleIncreaseQuantity, handleDecreaseQuan
                 <View style={styles.addRemoveQuantity}>
                   <View style={styles.removeIconWrap}>
                     <View style={styles.removeIcon}>
-                      <TouchableOpacity onPress={() => removeItem(entry?.id)}>
-                        <FontAwesome
-                          name="trash"
-                          size={20}
-                          style={{ color: '#757070' }}
-                        />
-                      </TouchableOpacity>
+                    <TouchableOpacity onPress={() => infoAlert('Confirm', 'Are you sure you want to remove this item?', entry?.id)}>
+                      <FontAwesome
+                        name="trash"
+                        size={20}
+                        style={{ color: '#757070' }}
+                      />
+                    </TouchableOpacity>
+
                     </View>
                     <View style={styles.plusMinusContent}>
                       {/* Decrease Button */}
-                      <TouchableOpacity onPress={()=>handleDecreaseQuantity(entry?.id)}>
+                      <TouchableOpacity onPress={()=>handleDecreaseQuantity(entry?.product_id)}>
                         <Text style={styles.plusButtonDis}>-</Text>
                       </TouchableOpacity>
                       {/* Quantity */}
                       <Text style={styles.quantityButton}>{entry?.quantity}</Text>
                       {/* Increase Button */}
-                      <TouchableOpacity onPress={()=>handleIncreaseQuantity(entry?.id)}>
+                      <TouchableOpacity onPress={()=>handleIncreaseQuantity(entry?.product_id)}>
                         <Text style={styles.minusButtonDis}>+</Text>
                       </TouchableOpacity>
                     </View>

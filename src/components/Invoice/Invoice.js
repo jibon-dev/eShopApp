@@ -10,11 +10,10 @@ import {
 } from 'react-native';
 import React from 'react';
 import {BASE_URL} from '../../api/api';
-
-// Icons
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Invoice = ({navigation}) => {
+const Invoice = ({navigation, invoiceData}) => {
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -35,7 +34,7 @@ const Invoice = ({navigation}) => {
                   <Text style={styles.textInfo}>Invoice no</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
-                  <Text>: ee</Text>
+                  <Text>: {invoiceData?.data?.slug.toUpperCase()}</Text>
                 </View>
               </View>
               <View style={styles.orderSummaryContent}>
@@ -43,7 +42,7 @@ const Invoice = ({navigation}) => {
                   <Text style={styles.textInfo}>Phone no</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
-                  <Text>: 44</Text>
+                  <Text>: {invoiceData?.data?.contact_number}</Text>
                 </View>
               </View>
               <View style={styles.orderSummaryContent}>
@@ -51,7 +50,7 @@ const Invoice = ({navigation}) => {
                   <Text style={styles.textInfo}>Amount to be paid</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
-                  <Text>: 700 ৳</Text>
+                  <Text>: {invoiceData?.data?.amount_to_be_collect} ৳ </Text>
                 </View>
               </View>
               <View style={styles.orderSummaryContent}>
@@ -59,7 +58,7 @@ const Invoice = ({navigation}) => {
                   <Text style={styles.textInfo}>Address</Text>
                 </View>
                 <View style={styles.orderSummaryRightContent}>
-                  <Text>Add</Text>
+                  <Text>{invoiceData?.data?.location}, {invoiceData?.data?.city}</Text>
                 </View>
               </View>
               <View style={styles.orderSummaryContent}>
@@ -77,15 +76,14 @@ const Invoice = ({navigation}) => {
               </View>
 
               <View style={styles.textMessage}>
-                <Text style={styles.textInfo}>Note :</Text>
+                <Text style={styles.textInfo}>Note : {invoiceData?.data?.notes}</Text>
               </View>
             </View>
 
             <View style={styles.downloadIInvoice}>
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL(`${BASE_URL}/invoices/list/`);
-                }}>
+            <TouchableOpacity onPress={() => {
+              Linking.openURL(`${BASE_URL}/invoices/list/${invoiceData?.data?.slug}`)
+              }}>
                 <Text style={styles.downloadInvoiceButton}>Print Invoice</Text>
               </TouchableOpacity>
             </View>

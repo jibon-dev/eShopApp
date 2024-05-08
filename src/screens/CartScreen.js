@@ -17,26 +17,29 @@ import { BASE_URL } from '../api/api';
 
 
 const CartScreen = ({ navigation }) => {
-  const [cartData, setCartData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
 
+  const [cartItem, setCartItem] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchCartData();
-  }, []);
+    setTimeout(() => {
+      fetchCartData();
+    }, 3000);
+}, []);
 
+  // Cart Fetch Data ================
   const fetchCartData = async () => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list`);
       const responseData = await response.json();
-      setCartData(responseData.cart);
+      setCartItem(responseData.cart);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching cart data:', error);
+      infoAlert('Error fetching cart data:', error);
     }
   };
 
+  // IncreaseQuantity Function =======================
   const handleIncreaseQuantity = async (productId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -50,20 +53,18 @@ const CartScreen = ({ navigation }) => {
         }),
       });
       if (response.ok) {
-        // Quantity increased successfully
-        Alert.alert('Quantity Increased', 'Quantity has been increased successfully.');
-        fetchCartData()
+        fetchCartData();
+        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');        
       } else {
-        // Handle unsuccessful response
-        Alert.alert('Error', 'Failed to increase quantity. Please try again later.');
+        const responseData = await response.json();
+        infoAlert('Sorry !', responseData.msg);
       }
     } catch (error) {
-      // Handle error
-      console.error('Error increasing quantity:', error);
-      Alert.alert('Error', 'An error occurred while increasing quantity. Please try again later.');
+      infoAlert('Quantity Increased', error);
     }
   };
 
+  // Decrease Function ===============================
   const handleDecreaseQuantity = async (productId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -77,23 +78,19 @@ const CartScreen = ({ navigation }) => {
         }),
       });
       if (response.ok) {
-        // Quantity decreased successfully
-        Alert.alert('Quantity Decreased', 'Quantity has been decreased successfully.');
-        fetchCartData(); // Optionally, you can refresh the cart data here
+        fetchCartData();
+        infoAlert('Quantity Decreased', 'Quantity has been decreased successfully.');
       } else {
-        // Handle unsuccessful response
-        Alert.alert('Error', 'Failed to decrease quantity. Please try again later.');
+        infoAlert('Error:', 'Failed to decrease quantity. Please try again later.');
       }
     } catch (error) {
       // Handle error
-      console.error('Error decreasing quantity:', error);
-      Alert.alert('Error', 'An error occurred while decreasing quantity. Please try again later.');
+      infoAlert('Error decreasing quantity:', error);
     }
   };
-  
- 
- 
-  const removeItem = async (itemId) => {
+
+  // RemoveItemFromCart Function ====================
+  const handleRemoveItemFromCart = async (itemId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-remove/`, {
         method: 'POST',
@@ -105,14 +102,31 @@ const CartScreen = ({ navigation }) => {
         }),
       });
       const responseData = await response.json();
-      if (responseData.detail === "Item removed successfully") {
+      if (response.ok) {
+        // infoAlert('Item Removed', responseData.msg);
         fetchCartData();
-      }
+      } 
     } catch (error) {
-      console.error('Error removing item:', error);
+      // Handle error
+      infoAlert('Error removing item:', error);
     }
   };
 
+  // Custom Message ============================
+  const infoAlert = (title, message, itemId) => {
+    Alert.alert(title, message, [
+      {
+        text: 'Cancel',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: 'Ok',
+        onPress: () => handleRemoveItemFromCart(itemId),
+      },
+    ]);
+  };
+  
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -121,15 +135,15 @@ const CartScreen = ({ navigation }) => {
           ) : 
           (
             <>
-              {cartData.exist ? (
+              {cartItem.exist ? (
                 <View style={styles.container}>
                   <ScrollView>
                     <Cart 
-                    cartData={cartData}
-                    removeItem={removeItem}
+                    cartItem={cartItem}
                     handleIncreaseQuantity={handleIncreaseQuantity}
                     handleDecreaseQuantity={handleDecreaseQuantity}
-                    
+                    handleRemoveItemFromCart={handleRemoveItemFromCart}
+                    infoAlert={infoAlert}
                     />
                   </ScrollView>
       
@@ -139,7 +153,7 @@ const CartScreen = ({ navigation }) => {
                       <Text style={styles.totalAmountTitle}>Total Amount : </Text>
                     </View>
                     <View style={styles.totalAmountRight}>
-                      <Text style={styles.totalAmountPrice}> ৳ {cartData?.total_cost}</Text>
+                      <Text style={styles.totalAmountPrice}> ৳ {cartItem?.total_cost}</Text>
                     </View>
                   </View>
                   {/*Proceed to Order*/}

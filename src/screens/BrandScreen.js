@@ -96,7 +96,7 @@ const BrandScreens = ({navigation}) => {
 const styles = StyleSheet.create({
   brandContainer: {
     flex: 1,
-    backgroundColor: '#FFFF',
+    backgroundColor: '#FFFFFF',
   },
   brand: {
     flex: 1,
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#1b3c60',
+        borderColor: '#183153',
         height: 40,
         borderRadius: 15,
         overflow: 'hidden',
@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFF',
-        borderWidth: 1,
-        borderColor: '#1b3c60',
+        borderWidth: 1.5,
+        borderColor: '#183153',
         height: 40,
         borderRadius: 15,
         overflow: 'hidden',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   searchIcon: {
-    backgroundColor: '#1b3c60',
+    backgroundColor: '#183153',
     color: '#FFF',
     padding: 10,
     height: 40,

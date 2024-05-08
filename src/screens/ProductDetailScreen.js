@@ -1,7 +1,5 @@
-
 import React, {
   useState,
-  useContext,
   useEffect,
   useCallback,
   useRef,
@@ -22,17 +20,22 @@ import {
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
 import RelatedProduct from '../components/ProductDetails/RelatedProduct';
-import ProductDetailSliderImage from '../components/ProductDetails/ProductDetailSliderImage';
 import Loader from '../components/Loader/loader';
+import ProductDetailSliderImage from '../components/ProductDetails/ProductDetailSliderImage';
+
 import {getProduct} from '../api/Products/products';
 import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
 import { BASE_URL } from '../api/api';
+import { isDomElement } from 'react-native-render-html';
+
 
 const ProductDetailScreen = ({navigation, route}) => {
   const [productData, setProductData] = useState({});
   const [hotDeals, setHotDeals] = useState([]);
-  const [productCounter, setProductCounter] = useState(1);
   const [loader, setLoader] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+
   const {product} = route.params;
 
   useEffect(() => {
@@ -68,6 +71,7 @@ const ProductDetailScreen = ({navigation, route}) => {
     );
   }
 
+  // Slider image ================================================================
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
   indexRef.current = index;
@@ -115,11 +119,10 @@ const ProductDetailScreen = ({navigation, route}) => {
   }, []);
 
 
-  const [loading, setLoading] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-
+/**=======================================================
+ * Add item to the cart.
+ =========================================================*/
   const addToCart = async () => {
-    setLoading(true);
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
         method: 'POST',
@@ -128,29 +131,41 @@ const ProductDetailScreen = ({navigation, route}) => {
         },
         body: JSON.stringify({
           product_id: productData?.id,
-          quantity: quantity
+          quantity: quantity,
         }),
       });
       const responseData = await response.json();
-      console.log(responseData);
+      if (responseData.status === false) {
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        // Display success alert
+        infoAlert('Title', `${productData?.title} added to cart successfully.`);
+      }
     } catch (error) {
-      console.error('Error adding to cart:', error);
-    } finally {
-      setLoading(false);
+      infoAlert('Error adding to cart:', error);
+    } 
+    finally {
+      setLoader(false);
     }
   };
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+  // Message ============================
+  const infoAlert = (title, message) => {
+    Alert.alert('', message, [
+      {
+        text: 'Cancel',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: 'Ok',
+        onPress: () => null,
+      },
+    ]);
   };
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-
+  
   return (
     <SafeAreaView style={styles.productDetailContainer}>
       {loader ? (
@@ -179,38 +194,11 @@ const ProductDetailScreen = ({navigation, route}) => {
               </View>
               <View style={{marginBottom: 10}} />
               <View style={{flexDirection: 'row'}}>
-                <View style={{width: '75%', marginBottom: 20}}>
+                <View style={{width: '90%', marginBottom: 5}}>
                   <View style={{flexDirection: 'row'}}>
                     <Text style={styles.productDetailHealthTips}>
                       Health tips : {productData.health_tips}
                     </Text>
-                  </View>
-                </View>
-                <View style={{width: '18%'}}>
-                  <View style={{flex: 1}}>
-                    {productData.active && (
-                      <View style={{flexDirection: 'row'}}>
-                        <View>
-                          <TouchableOpacity onPress={decreaseQuantity}>
-                            <Text style={styles.plusButton}>
-                              -
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity>
-                          <Text style={styles.quantityButton}>
-                            {quantity}
-                          </Text>
-                        </TouchableOpacity>
-                        <View>
-                          <TouchableOpacity onPress={increaseQuantity}>
-                            <Text style={styles.minusButton}>
-                              +
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    )}
                   </View>
                 </View>
               </View>

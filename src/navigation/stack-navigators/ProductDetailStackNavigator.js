@@ -1,12 +1,11 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-
-// Icons
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import ProductDetail from '../../screens/ProductDetailScreen';
+import ProductDetailScreen from '../../screens/ProductDetailScreen'
+
 
 const Stack = createStackNavigator();
 
@@ -17,7 +16,7 @@ const ProductDetailStackNavigator = () => {
         headerShown: true,
         headerTintColor: '#ffffff',
         headerStyle: {
-          backgroundColor: '#551E18',
+          backgroundColor: '#183153',
           height: 50,
         },
         headerLeft: () => (
@@ -54,8 +53,8 @@ const ProductDetailStackNavigator = () => {
         ),
       })}>
       <Stack.Screen
-        name="ProductDetails"
-        component={ProductDetail}
+        name="ProductDetail"
+        component={ProductDetailScreen}
         options={{
           title: 'Product Details',
           headerTitleAlign: 'left',
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   touchableButton: {
-    backgroundColor: '#551E18',
+    backgroundColor: '#183153',
     overflow: 'hidden',
     paddingLeft: 5,
     paddingRight: 5,

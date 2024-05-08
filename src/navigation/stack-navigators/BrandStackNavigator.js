@@ -13,9 +13,9 @@ const BrandStackNavigator = () => {
     <Stack.Navigator
       screenOptions={({navigation, route}) => ({
         headerShown: true,
-        headerTintColor: '#ffffff',
+        headerTintColor: '#FFFFFF',
         headerStyle: {
-          backgroundColor: '#551E18',
+          backgroundColor: '#183153',
           height: 50,
         },
         headerLeft: () => (
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   touchableButton: {
-    backgroundColor: '#551E18',
+    backgroundColor: '#183153',
     overflow: 'hidden',
     paddingLeft: 5,
     paddingRight: 5,

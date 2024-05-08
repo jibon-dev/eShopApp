@@ -92,7 +92,7 @@ export const routes = [
     showInTab: false,
     showInDrawer: false,
     icon: focused => (
-      <FontAwesome name="home" size={30} color={focused ? '#551E18' : '#000'} />
+      <FontAwesome name="home" size={30} color={focused ? 'black' : '#969696'} />
     ),
   },
   {
@@ -102,7 +102,7 @@ export const routes = [
     showInTab: true,
     showInDrawer: true,
     icon: focused => (
-      <FontAwesome name="home" size={30} color={focused ? '#551E18' : '#000'} />
+      <FontAwesome name="home" size={30} color={focused ? 'black' : '#969696'} />
     ),
   },
   {
@@ -112,7 +112,7 @@ export const routes = [
     showInTab: true,
     showInDrawer: false,
     icon: focused => (
-      <FontAwesome name="home" size={30} color={focused ? '#551E18' : '#000'} />
+      <FontAwesome name="home" size={30} color={focused ? 'black' : '#969696'} />
     ),
   },
 
@@ -405,7 +405,7 @@ export const routes = [
       <FontAwesome
         name="phone"
         size={30}
-        color={focused ? '#551E18' : '#000'}
+        color={focused ? 'black' : '#969696'}
       />
     ),
   },
@@ -419,7 +419,7 @@ export const routes = [
       <FontAwesome
         name="phone"
         size={30}
-        color={focused ? '#551E18' : '#000'}
+        color={focused ? 'black' : '#969696'}
       />
     ),
   },
@@ -450,7 +450,7 @@ export const routes = [
       <FontAwesome
         name="envelope"
         size={30}
-        color={focused ? '#551E18' : '#000'}
+        color={focused ? 'black' : '#969696'}
       />
     ),
   },
