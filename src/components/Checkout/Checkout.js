@@ -177,6 +177,7 @@ const Checkout = ({navigation, cartItem}) => {
                                 deliveryCharge={deliveryCharge}
                                 deliveryMethod={deliveryMethod}
                                 cartItem={cartItem}
+                                setTotalQuantity={setTotalQuantity}
                             />
                         </View>
                         <View style={styles.checkoutMargin}/>

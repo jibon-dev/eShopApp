@@ -5,12 +5,15 @@ import {
   TouchableOpacity,
   Alert,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  useContext
 } from 'react-native';
 import {useState} from 'react';
 import {BASE_URL} from '../../api/api';
 
-const CheckoutForm = ({ navigation, deliveryCharge, deliveryMethod }) => {
+
+const CheckoutForm = ({ navigation, deliveryCharge, deliveryMethod, setTotalQuantity }) => {
+ 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
@@ -80,6 +83,7 @@ const CheckoutForm = ({ navigation, deliveryCharge, deliveryMethod }) => {
             InvoiceId: responseData["context"]["invoiceId"]
           },
         });
+        setTotalQuantity(0);
         setLoading(false);
       }
     } catch (error) {

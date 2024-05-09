@@ -16,7 +16,6 @@ import EmptyCart from '../components/Cart/EmptyCart';
 import { CartContext } from '../contexts/CartContext';
 import { BASE_URL } from '../api/api';
 
-
 const CartScreen = ({ navigation }) => {
   const [cartItem, setCartItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -101,7 +100,6 @@ const CartScreen = ({ navigation }) => {
   };
 
 
-
   // RemoveItemFromCart Function ====================
   const handleRemoveItemFromCart = async (itemId) => {
     try {
@@ -119,8 +117,6 @@ const CartScreen = ({ navigation }) => {
         // infoAlert('Item Removed', responseData.msg);
         setTotalQuantity(responseData?.items_count);
         fetchCartData();
-       
-        
       } 
     } catch (error) {
       // Handle error
