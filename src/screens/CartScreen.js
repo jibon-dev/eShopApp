@@ -1,5 +1,5 @@
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   SafeAreaView,
   View,
@@ -13,13 +13,15 @@ import {
 import Cart from '../components/Cart/Cart';
 import Loader from '../components/Loader/loader';
 import EmptyCart from '../components/Cart/EmptyCart';
+import { CartContext } from '../contexts/CartContext';
 import { BASE_URL } from '../api/api';
 
 
 const CartScreen = ({ navigation }) => {
-
   const [cartItem, setCartItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  const {totalQuantity, setTotalQuantity} = useContext(CartContext)
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,7 +41,6 @@ const CartScreen = ({ navigation }) => {
     }
   };
 
-  // IncreaseQuantity Function =======================
   const handleIncreaseQuantity = async (productId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -49,22 +50,26 @@ const CartScreen = ({ navigation }) => {
         },
         body: JSON.stringify({
           product_id: productId,
+          quantity: 1,
           increase: true,
         }),
       });
-      if (response.ok) {
+      const responseData = await response.json();
+      if (responseData.status === false) {
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        // Update quantity to context
+        setTotalQuantity(responseData?.total_quantity);
         fetchCartData();
-        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');        
-      } else {
-        const responseData = await response.json();
-        infoAlert('Sorry !', responseData.msg);
+        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');
       }
     } catch (error) {
-      infoAlert('Quantity Increased', error);
-    }
+      infoAlert('Error adding to cart:', error);
+    } 
   };
 
-  // Decrease Function ===============================
+
   const handleDecreaseQuantity = async (productId) => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -74,20 +79,28 @@ const CartScreen = ({ navigation }) => {
         },
         body: JSON.stringify({
           product_id: productId,
+          quantity: 1,
           decrease: true,
         }),
       });
-      if (response.ok) {
+      const responseData = await response.json();
+      if (responseData.status === false) {
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        // Update quantity to context
+        setTotalQuantity(responseData?.total_quantity);
         fetchCartData();
+        // Display success alert
         infoAlert('Quantity Decreased', 'Quantity has been decreased successfully.');
-      } else {
-        infoAlert('Error:', 'Failed to decrease quantity. Please try again later.');
       }
     } catch (error) {
-      // Handle error
-      infoAlert('Error decreasing quantity:', error);
-    }
+      infoAlert('Error adding to cart:', error);
+    } 
+    
   };
+
+
 
   // RemoveItemFromCart Function ====================
   const handleRemoveItemFromCart = async (itemId) => {
@@ -104,7 +117,10 @@ const CartScreen = ({ navigation }) => {
       const responseData = await response.json();
       if (response.ok) {
         // infoAlert('Item Removed', responseData.msg);
+        setTotalQuantity(responseData?.items_count);
         fetchCartData();
+       
+        
       } 
     } catch (error) {
       // Handle error

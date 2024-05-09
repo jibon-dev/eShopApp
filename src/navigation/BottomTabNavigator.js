@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Text, StyleSheet, View} from 'react-native';
 import {routes, screens} from './RouteItems';
 
-// import { CartContext } from '../contexts/CartContext';
+import { CartContext } from '../contexts/CartContext';
 
 /*==================================================================
                     Added stack-navigators
@@ -59,7 +59,7 @@ const tabOptions = ({route}) => {
 
 const BottomTabNavigator = () => {
 
-  // const {totalQuantity} = useContext(CartContext)
+  const {totalQuantity} = useContext(CartContext)
 
 
    return (
@@ -111,7 +111,7 @@ const BottomTabNavigator = () => {
       <Tab.Screen name={screens.CartStack} 
         component={CartStackNavigator}
         options={{
-          tabBarBadge:  0,
+          tabBarBadge:  totalQuantity,
           tabBarBadgeStyle: {backgroundColor: '#E04F54'},
           unmountOnBlur: true,
       }}

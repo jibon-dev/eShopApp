@@ -5,26 +5,26 @@ import Loader from '../components/Loader/loader';
 import { BASE_URL } from '../api/api';
 
 const CheckoutScreen = ({navigation}) => {
-    const [cartData, setCartData] = useState(null);
-    const [loading, setLoading] = useState(false);
+  const [cartItem, setCartItem] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchCartData = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${BASE_URL}/carts/api/cart-list`);
-            const responseData = await response.json();
-            setCartData(responseData.cart);
-        } 
-        catch (error) {
-            console.log("Error fetching cart data:", error);
-            
-        }
-        setLoading(false);
-      };
+  useEffect(() => {
+    setTimeout(() => {
+      fetchCartData();
+    }, 3000);
+}, []);
 
-        fetchCartData();
-    }, []);
+  // Cart Fetch Data ================
+  const fetchCartData = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/carts/api/cart-list`);
+      const responseData = await response.json();
+      setCartItem(responseData.cart);
+      setLoading(false);
+    } catch (error) {
+      infoAlert('Error fetching cart data:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -35,7 +35,7 @@ const CheckoutScreen = ({navigation}) => {
           <>
             <View style={styles.container}>
               <Checkout 
-              cartData={cartData} 
+              cartItem={cartItem} 
               loading={loading} 
               navigation={navigation} 
               />
