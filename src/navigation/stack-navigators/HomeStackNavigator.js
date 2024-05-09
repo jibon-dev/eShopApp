@@ -8,8 +8,8 @@ import {
   View,
 } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-
 import Icon from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import HomeScreen from '../../screens/HomeScreen';
 
@@ -44,7 +44,7 @@ const HomeStackNavigator = () => {
             <View style={styles.headerContent}>
               <Text style={styles.headerSearchIcon}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('SearchStack')}
+                  onPress={() => navigation.navigate('SearchProductStack')}
                   style={styles.touchableButton}>
                   <Icon name="search" size={16} color="#fff" />
                 </TouchableOpacity>

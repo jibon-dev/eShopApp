@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useCallback,
   useRef,
+  useContext
 } from 'react';
 import {
   SafeAreaView,
@@ -22,19 +23,21 @@ const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 import RelatedProduct from '../components/ProductDetails/RelatedProduct';
 import Loader from '../components/Loader/loader';
 import ProductDetailSliderImage from '../components/ProductDetails/ProductDetailSliderImage';
-
+// Api Call ================================================================================
 import {getProduct} from '../api/Products/products';
 import {getHotDealsProductsOfferList} from '../api/HotDeals/hotDeals';
 import { BASE_URL } from '../api/api';
 import { isDomElement } from 'react-native-render-html';
 
+import { CartContext } from '../contexts/CartContext';
 
 const ProductDetailScreen = ({navigation, route}) => {
   const [productData, setProductData] = useState({});
   const [hotDeals, setHotDeals] = useState([]);
   const [loader, setLoader] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [quantity, setQuantity] = useState(1);
+  const {totalQuantity, setTotalQuantity} = useContext(CartContext)
+ 
 
   const {product} = route.params;
 
@@ -71,7 +74,6 @@ const ProductDetailScreen = ({navigation, route}) => {
     );
   }
 
-  // Slider image ================================================================
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
   indexRef.current = index;
@@ -118,10 +120,10 @@ const ProductDetailScreen = ({navigation, route}) => {
     );
   }, []);
 
+  
 
-/**=======================================================
- * Add item to the cart.
- =========================================================*/
+ 
+  // Add to cart =======================================================
   const addToCart = async () => {
     try {
       const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
@@ -131,7 +133,7 @@ const ProductDetailScreen = ({navigation, route}) => {
         },
         body: JSON.stringify({
           product_id: productData?.id,
-          quantity: quantity,
+          quantity: 1,
         }),
       });
       const responseData = await response.json();
@@ -139,6 +141,8 @@ const ProductDetailScreen = ({navigation, route}) => {
         infoAlert('Error', responseData.msg)
       } 
       else {
+        // Update quantity to context
+        setTotalQuantity(responseData?.total_quantity);
         // Display success alert
         infoAlert('Title', `${productData?.title} added to cart successfully.`);
       }
@@ -150,7 +154,71 @@ const ProductDetailScreen = ({navigation, route}) => {
     }
   };
 
-  // Message ============================
+
+  const handleIncreaseQuantity = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productData?.id,
+          quantity: 1,
+          increase: true,
+        }),
+      });
+      const responseData = await response.json();
+      if (responseData.status === false) {
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        // Update quantity to context
+        setTotalQuantity(responseData?.total_quantity);
+        infoAlert('Quantity Increased', 'Quantity has been increased successfully.');
+      }
+    } catch (error) {
+      infoAlert('Error adding to cart:', error);
+    } 
+    finally {
+      setLoader(false);
+    }
+  };
+
+
+  const handleDecreaseQuantity = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/carts/api/cart-list/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productData?.id,
+          quantity: 1,
+          decrease: true,
+        }),
+      });
+      const responseData = await response.json();
+      if (responseData.status === false) {
+        infoAlert('Error', responseData.msg)
+      } 
+      else {
+        // Update quantity to context
+        setTotalQuantity(responseData?.total_quantity);
+        // Display success alert
+        infoAlert('Quantity Decreased', 'Quantity has been decreased successfully.');
+      }
+    } catch (error) {
+      infoAlert('Error adding to cart:', error);
+    } 
+    finally {
+      setLoader(false);
+    }
+  };
+
+  
+  // Message ===========================================================
   const infoAlert = (title, message) => {
     Alert.alert('', message, [
       {
@@ -194,11 +262,38 @@ const ProductDetailScreen = ({navigation, route}) => {
               </View>
               <View style={{marginBottom: 10}} />
               <View style={{flexDirection: 'row'}}>
-                <View style={{width: '90%', marginBottom: 5}}>
+                <View style={{width: '79%', marginBottom: 20}}>
                   <View style={{flexDirection: 'row'}}>
                     <Text style={styles.productDetailHealthTips}>
                       Health tips : {productData.health_tips}
                     </Text>
+                  </View>
+                </View>
+                <View style={{width: '18%'}}>
+                  <View style={{flex: 1}}>
+                    {productData.active && (
+                      <View style={{flexDirection: 'row'}}>
+                        <View>
+                          <TouchableOpacity onPress={handleDecreaseQuantity}>
+                            <Text style={styles.plusButton}>
+                              -
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity>
+                          <Text style={styles.quantityButton}>
+                            {totalQuantity}
+                          </Text>
+                        </TouchableOpacity>
+                        <View>
+                          <TouchableOpacity onPress={handleIncreaseQuantity}>
+                            <Text style={styles.minusButton}>
+                              +
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    )}
                   </View>
                 </View>
               </View>

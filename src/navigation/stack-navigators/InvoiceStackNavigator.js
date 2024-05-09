@@ -37,10 +37,15 @@ const InvoiceStackNavigator = () => {
             <View style={styles.headerContent}>
               <Text style={styles.headerSearchIcon}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('SearchProductStack')}
-                  style={styles.touchableButton}>
-                  <FontAwesome name="search" size={20} color="#fff" />
-                </TouchableOpacity>
+                    onPress={() =>
+                      navigation.navigate('SearchProductStack', {
+                        screen: 'SearchProduct',
+                        params: {search_query: ''},
+                      })
+                    }
+                    style={styles.touchableButton}>
+                    <FontAwesome name="search" size={20} color="#fff" />
+                  </TouchableOpacity>
               </Text>
               <Text style={styles.headerSearchIcon}>
                 <TouchableOpacity

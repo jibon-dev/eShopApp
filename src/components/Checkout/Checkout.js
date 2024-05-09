@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { BASE_URL, bela } from '../../api/api';
+import React, {useEffect, useState, useContext} from 'react';
+import { BASE_URL} from '../../api/api';
 import {
     View,
     KeyboardAvoidingView,
@@ -13,18 +13,20 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import CheckoutForm from './CheckoutForm';
+import { CartContext } from '../../contexts/CartContext';
 
 
-const Checkout = ({navigation, cartData}) => {
+const Checkout = ({navigation, cartItem}) => {
+    const {totalQuantity, setTotalQuantity} = useContext(CartContext)
     const [loading, setLoading] = useState(true);
     const [deliveryCharge, setDeliveryCharge] = useState('');
     const [deliveryMethod, setDeliveryMethod] = useState('');
     const [location, setLocation] = useState('');
 
-    const totalItems = parseInt(cartData?.items_count);
-    const totalWeight = parseInt(cartData?.total_weight || 0)
-    const totalCost = parseFloat(cartData?.total_cost || 0);
-    const totalCostWithDeliveryCharge = parseFloat(cartData?.total_cost || 0) + parseFloat(deliveryCharge || 0);
+    // const totalItems = parseInt(cartItem?.items_count);
+    const totalWeight = parseInt(cartItem?.total_weight || 0)
+    const totalCost = parseFloat(cartItem?.total_cost || 0);
+    const totalCostWithDeliveryCharge = parseFloat(cartItem?.total_cost || 0) + parseFloat(deliveryCharge || 0);
 
     const handleDeliveryCharge = async (selectedLocation) => {
         setLocation(selectedLocation);
@@ -45,34 +47,7 @@ const Checkout = ({navigation, cartData}) => {
         }
     };
 
-    const [totalQuantity, setTotalQuantity] = useState(0);
-   
-    useEffect(() => {
-        async function sleep() {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-        }
-        fetchCartTotalQuantity();
-    }, [totalQuantity]);
-
-    const fetchCartTotalQuantity = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${BASE_URL}/carts/api/cart-count`);
-            const data = await response.json();
-            setTotalQuantity(data.total_quantity);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching cart data:', error);
-            setLoading(false);
-        }
-    };
-
-     // Check if delivery method is selected
-     const isDeliveryMethodSelected = () => {
-        return location !== null;
-    };
   
-
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -201,6 +176,7 @@ const Checkout = ({navigation, cartData}) => {
                                 navigation={navigation}
                                 deliveryCharge={deliveryCharge}
                                 deliveryMethod={deliveryMethod}
+                                cartItem={cartItem}
                             />
                         </View>
                         <View style={styles.checkoutMargin}/>

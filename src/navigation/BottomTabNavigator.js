@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Text, StyleSheet, View} from 'react-native';
 import {routes, screens} from './RouteItems';
 
-// import { CartContext } from '../contexts/CartContext';
+import { CartContext } from '../contexts/CartContext';
 
 /*==================================================================
                     Added stack-navigators
@@ -15,7 +15,7 @@ import CallStackNavigator from './stack-navigators/CallStackNavigator';
 import CartStackNavigator from './stack-navigators/CartStackNavigator';
 import AboutStackNavigator from './stack-navigators/AboutStackNavigator';
 import ContactStackNavigator from './stack-navigators/ContactStackNavigator';
-import SearchStackNavigator from './stack-navigators/SearchStackNavigator';
+import SearchProductStackNavigator from './stack-navigators/SearchProductStackNavigator';
 import UserProfileStackNavigator from './stack-navigators/UserProfileStackNavigator';
 import TrackingMyParcelStackNavigator from './stack-navigators/TrackingMyParcelStackNavigator';
 import PurchaseHistoryStackNavigator from './stack-navigators/PurchaseHistoryStackNavigator';
@@ -59,7 +59,7 @@ const tabOptions = ({route}) => {
 
 const BottomTabNavigator = () => {
 
-  // const {totalQuantity} = useContext(CartContext)
+  const {totalQuantity} = useContext(CartContext)
 
 
    return (
@@ -111,7 +111,7 @@ const BottomTabNavigator = () => {
       <Tab.Screen name={screens.CartStack} 
         component={CartStackNavigator}
         options={{
-          tabBarBadge:  0,
+          tabBarBadge:  totalQuantity,
           tabBarBadgeStyle: {backgroundColor: '#E04F54'},
           unmountOnBlur: true,
       }}
@@ -122,7 +122,10 @@ const BottomTabNavigator = () => {
         name={screens.ContactStack}
         component={ContactStackNavigator}
       />
-      <Tab.Screen name={screens.SearchStack} component={SearchStackNavigator} />
+      <Tab.Screen
+        name={screens.SearchProductStack}
+        component={SearchProductStackNavigator}
+      />
       <Tab.Screen
         name={screens.UserProfileStack}
         component={UserProfileStackNavigator}
